@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NiggeXT </title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+     <title>Tarot motkiki</title>
+     <link rel="icon" type="image/x-icon" href="https://img.freepik.com/vector-cao-cap/logo-chu-vtlogo-toi-gianlogo-chuc-logo-don-chu_1146561-306.jpg?semt=ais_hybrid&w=740&q=80">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+    :root {
+        --primary: #00ff9d;
+        --primary-dark: #00b86e;
+    }
+    * {
+        transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, box-shadow, transform;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 200ms;
+    }
+    .crypto-bg {
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+    }
+    .card-hover:hover {
+        transform: translateY(-6px) scale(1.02);
+        box-shadow: 0 25px 50px -12px rgb(0 255 157 / 0.25);
+    }
+    .neon-glow {
+        box-shadow: 0 0 25px -5px rgb(0 255 157 / 0.4),
+                    0 0 10px -5px rgb(0 255 157 / 0.3);
+    }
+    .price-ticker {
+        animation: ticker 25s linear infinite;
+    }
+    .live-dot {
+        animation: pulse 1.5s infinite;
+    }
+    .nav-active {
+        border-bottom: 4px solid #00ff9d;
+        color: #00ff9d;
+        position: relative;
+    }
+    .nav-active::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 6px;
+        height: 6px;
+        background: #00ff9d;
+        border-radius: 50%;
+        box-shadow: 0 0 12px #00ff9d;
+    }
+    .period-btn {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        font-weight: 700;
+        letter-spacing: 0.75px;
+        text-transform: uppercase;
+        font-size: 13px;
+    }
+    .period-btn:hover {
+        border-color: #00ff9d;
+        color: #00ff9d;
+        box-shadow: 0 0 20px rgba(0, 255, 157, 0.5);
+    }
+    .period-btn.active {
+        background: linear-gradient(90deg, rgba(0,255,157,0.2), rgba(0,184,110,0.15)) !important;
+        border-color: #00ff9d !important;
+        color: #00ff9d !important;
+        box-shadow: 0 0 30px rgba(0, 255, 157, 0.6),
+                    inset 0 0 15px rgba(255,255,255,0.2);
+        transform: scale(1.08);
+    }
+    #price-chart, #overview-chart {
+        filter: drop-shadow(0 15px 25px rgba(0, 255, 157, 0.15));
+    }
+    #portfolio-total-value-big {
+        font-size: 2.75rem !important;
+        line-height: 1;
+        text-shadow:
+            0 0 20px rgba(0, 255, 157, 0.4),
+            0 0 40px rgba(0, 255, 157, 0.2);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+    }
+    @keyframes ticker {
+        from { transform: translateX(0); }
+        to { transform: translateX(-50%); }
+    }
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.25; }
+    }
+    .glass {
+        background: rgba(255,255,255,0.06);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(255,255,255,0.12);
+    }
+    .search-input {
+        transition: all 0.3s ease;
+    }
+    .search-input:focus {
+        box-shadow: 0 0 0 4px rgba(0, 255, 157, 0.3);
+        transform: scale(1.02);
+    }
+    #toast {
+        animation: toastPop 0.3s ease forwards;
+    }
+    @keyframes toastPop {
+        0% { transform: translateY(20px); opacity: 0; }
+        100% { transform: translateY(0); opacity: 1; }
+    }
+    .badge-icon {
+        animation: badgeGlow 2.5s ease-in-out infinite alternate;
+    }
+    @keyframes badgeGlow {
+        0% {
+            transform: scale(1);
+            filter: drop-shadow(0 0 8px currentColor);
+        }
+        100% {
+            transform: scale(1.08);
+            filter: drop-shadow(0 0 25px currentColor) drop-shadow(0 0 40px currentColor);
+        }
+    }
+    .owned-badge-card {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+    .owned-badge-card .button-row {
+        margin-top: auto;
+    }
+        .coin-name { color: #ffffff !important; font-weight: 600; }
+    .coin-icon { filter: drop-shadow(0 0 8px currentColor); }
+    select { color: #ffffff !important; }
+    option { color: #ffffff !important; background: #1a1a2e; }
+    </style>
+</head>
+<body class="crypto-bg text-white font-sans min-h-screen">
+      <!-- NAVBAR -->
+    <nav class="bg-black/90 backdrop-blur-2xl border-b border-white/10 sticky top-0 z-50 neon-glow">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-[#00ff9d] to-[#00b86e] rounded-3xl flex items-center justify-center text-black font-bold text-3xl shadow-xl shadow-[#00ff9d]/50">₿</div>
+                <h1 class="text-3xl font-bold tracking-[-2px]" style="font-family: 'Space Grotesk', sans-serif;">NiggeXT</h1>
+                <span class="text-xs px-4 py-1.5 bg-[#00ff9d]/10 text-[#00ff9d] rounded-3xl font-medium flex items-center gap-1"><i class="fas fa-circle live-dot"></i> LIVE</span>
+            </div>
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+                <a onclick="navigateTo('dashboard')" class="flex items-center gap-2 cursor-pointer hover:text-[#00ff9d] nav-active" id="nav-dashboard"><i class="fas fa-home"></i><span>Trang chủ</span></a>
+                <a onclick="navigateTo('market')" class="flex items-center gap-2 cursor-pointer hover:text-[#00ff9d]" id="nav-market"><i class="fas fa-chart-line"></i><span>Thị trường</span></a>
+                <a onclick="navigateTo('trade')" class="flex items-center gap-2 cursor-pointer hover:text-[#00ff9d]" id="nav-trade"><i class="fas fa-exchange-alt"></i><span>Giao dịch</span></a>
+                <a onclick="navigateTo('wallet')" class="flex items-center gap-2 cursor-pointer hover:text-[#00ff9d]" id="nav-wallet"><i class="fas fa-wallet"></i><span>Ví</span></a>
+                <a onclick="navigateTo('mining')" class="flex items-center gap-2 cursor-pointer hover:text-[#00ff9d]" id="nav-mining"><i class="fas fa-pickaxe"></i><span>Đào coin</span></a>
+                <a onclick="navigateTo('history')" class="flex items-center gap-2 cursor-pointer hover:text-[#00ff9d]" id="nav-history"><i class="fas fa-history"></i><span>Lịch sử</span></a>
+                <a onclick="navigateTo('deposit')" class="flex items-center gap-2 cursor-pointer hover:text-[#00ff9d]" id="nav-deposit"><i class="fas fa-money-bill-transfer"></i><span>Nạp / Rút</span></a>
+                <a onclick="navigateTo('shop')" class="flex items-center gap-2 cursor-pointer hover:text-[#00ff9d]" id="nav-shop"><i class="fas fa-store"></i><span>Cửa hàng</span></a>
+            </div>
+            <div class="flex items-center gap-4">
+                <div onclick="showNotifications()" class="relative cursor-pointer p-3 hover:bg-white/10 rounded-3xl">
+                    <i class="fas fa-bell text-xl"></i>
+                    <span id="notif-badge" class="absolute -top-1 -right-1 bg-red-500 text-[10px] font-bold w-5 h-5 rounded-2xl flex items-center justify-center hidden">0</span>
+                </div>
+                <div onclick="showFavorites()" class="relative cursor-pointer p-3 hover:bg-white/10 rounded-3xl">
+                    <i class="fas fa-heart text-xl text-pink-400"></i>
+                </div>
+          
+                <div onclick="navigateTo('wallet')" class="flex items-center gap-2 bg-white/5 hover:bg-white/10 px-5 py-2 rounded-3xl cursor-pointer neon-glow">
+                    <i class="fas fa-coins text-[#00ff9d]"></i>
+                    <span id="header-usdt" class="font-mono font-semibold text-lg">50.00 USDT</span>
+                </div>
+               
+                <div id="user-profile" class="flex items-center gap-3 bg-white/5 hover:bg-white/10 px-4 py-2 rounded-3xl cursor-pointer"></div>
+            </div>
+        </div>
+    </nav>
+    <!-- TICKER LIVE -->
+    <div class="bg-black/90 border-b border-white/10 py-2 overflow-hidden">
+        <div id="ticker" class="flex items-center gap-8 whitespace-nowrap price-ticker text-sm font-medium"></div>
+    </div>
+    <div class="max-w-7xl mx-auto px-6 py-8">
+        <!-- DASHBOARD -->
+        <div id="page-dashboard" class="page">
+      
+            <p class="text-white/60 mb-8">Thị trường đang tăng nóng • Tổng giá trị ví: <span id="total-portfolio-value" class="font-mono font-semibold text-[#00ff9d]"></span></p>
+      
+            <!-- Biểu đồ tổng quan -->
+            <div class="mb-10">
+                <div class="flex justify-between items-end mb-6">
+                    <h3 class="text-2xl font-semibold">Hiệu suất danh mục <span class="text-white/50 text-base font-medium">(7 ngày qua)</span></h3>
+                    <div class="flex items-center gap-3 text-sm">
+                        <div class="px-4 py-2 bg-emerald-400/10 text-emerald-400 rounded-3xl flex items-center">
+                            <i class="fas fa-arrow-trend-up mr-2"></i> +4.8%
+                        </div>
+                        <span class="text-white/60">Tổng giá trị: <span id="overview-total" class="font-mono text-[#00ff9d]"></span></span>
+                    </div>
+                </div>
+                <div class="glass rounded-3xl p-6">
+                    <canvas id="overview-chart" class="w-full h-80"></canvas>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 glass rounded-3xl p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-semibold">Tổng quan danh mục</h3>
+                        <button onclick="navigateTo('wallet')" class="text-[#00ff9d] text-sm flex items-center gap-1 hover:underline">Xem chi tiết <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                    <div id="portfolio-cards" class="grid grid-cols-2 md:grid-cols-5 gap-4"></div>
+                </div>
+                <div class="glass rounded-3xl p-6">
+                    <h3 class="text-xl font-semibold mb-6">Top biến động</h3>
+                    <div id="top-movers" class="space-y-4"></div>
+                </div>
+            </div>
+            <div class="mt-10">
+                <h3 class="text-2xl font-semibold mb-6">Giao dịch nhanh</h3>
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-4" id="quick-trade-grid"></div>
+            </div>
+        </div>
+        <!-- MARKET PAGE -->
+        <div id="page-market" class="page hidden">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-4">
+                    <h2 class="text-3xl font-bold">Thị trường tiền điện tử</h2>
+                    <div class="relative">
+                        <input
+                            id="market-search"
+                            type="text"
+                            placeholder="Tìm coin..."
+                            onkeyup="if(event.key==='Enter') filterMarket()"
+                            class="search-input glass w-80 pl-12 py-4 rounded-3xl text-white placeholder:text-white/40 focus:outline-none">
+                        <i class="fas fa-search absolute left-5 top-1/2 -translate-y-1/2 text-white/40"></i>
+                    </div>
+                </div>
+          
+                <div class="flex items-center gap-4 text-sm">
+                    <div class="flex items-center glass px-4 py-2 rounded-3xl">
+                        <span class="text-[#00ff9d] mr-2">●</span>
+                        <span id="last-update" class="font-mono">Đang cập nhật realtime...</span>
+                    </div>
+                    <button onclick="fetchAllPrices()" class="flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 rounded-3xl">
+                        <i class="fas fa-sync"></i><span>Làm mới</span>
+                    </button>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="border-b border-white/10 text-white/60 text-left text-sm">
+                            <th class="py-4 px-6 font-normal">Coin</th>
+                            <th class="py-4 px-6 font-normal text-right">Giá (USDT)</th>
+                            <th class="py-4 px-6 font-normal text-right">24h %</th>
+                            <th class="py-4 px-6 font-normal text-right">Volume 24h</th>
+                            <th class="py-4 px-6 font-normal text-right">Thị trường</th>
+                            <th class="py-4 px-6 w-40"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="market-table-body" class="text-sm font-medium"></tbody>
+                </table>
+            </div>
+        </div>
+        <!-- TRADE PAGE -->
+        <div id="page-trade" class="page hidden">
+            <div class="flex gap-6">
+                <div class="flex-1">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-4">
+                            <div id="trade-coin-icon" class="text-5xl"></div>
+                            <div>
+                                <h2 id="trade-coin-name" class="text-3xl font-bold"></h2>
+                                <p id="trade-coin-symbol" class="text-white/60 uppercase"></p>
+                            </div>
+                            <div id="trade-price-big" class="ml-6 text-4xl font-mono font-semibold"></div>
+                            <div id="trade-change-big" class="text-xl font-medium"></div>
+                        </div>
+                  
+                        <div class="flex gap-2">
+                            <button onclick="setChartPeriod(1)" class="period-btn px-5 py-2 text-xs rounded-3xl border border-white/20 hover:border-[#00ff9d]" data-period="1">1H</button>
+                            <button onclick="setChartPeriod(24)" class="period-btn px-5 py-2 text-xs rounded-3xl border border-white/20 hover:border-[#00ff9d] active" data-period="24">24H</button>
+                            <button onclick="setChartPeriod(168)" class="period-btn px-5 py-2 text-xs rounded-3xl border border-white/20 hover:border-[#00ff9d]" data-period="168">7D</button>
+                            <button onclick="setChartPeriod(720)" class="period-btn px-5 py-2 text-xs rounded-3xl border border-white/20 hover:border-[#00ff9d]" data-period="720">30D</button>
+                        </div>
+                    </div>
+              
+                    <div class="glass rounded-3xl p-4">
+                        <canvas id="price-chart" class="w-full h-96"></canvas>
+                    </div>
+              
+                    <div class="mt-8 grid grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="text-emerald-400 mb-3 text-sm font-medium flex items-center"><i class="fas fa-arrow-up mr-2"></i> Mua (Bids)</h4>
+                            <div id="fake-bids" class="space-y-1 text-xs font-mono"></div>
+                        </div>
+                        <div>
+                            <h4 class="text-red-400 mb-3 text-sm font-medium flex items-center"><i class="fas fa-arrow-down mr-2"></i> Bán (Asks)</h4>
+                            <div id="fake-asks" class="space-y-1 text-xs font-mono"></div>
+                        </div>
+                    </div>
+                </div>
+          
+                <div class="w-96 glass rounded-3xl p-6 flex flex-col">
+                    <div class="flex mb-6 border-b border-white/10 pb-4">
+                        <button onclick="setTradeTab(0)" id="buy-tab" class="flex-1 py-3 text-center font-semibold bg-emerald-500/20 text-emerald-400 rounded-l-3xl">MUA</button>
+                        <button onclick="setTradeTab(1)" id="sell-tab" class="flex-1 py-3 text-center font-semibold bg-red-500/20 text-red-400 rounded-r-3xl">BÁN</button>
+                    </div>
+              
+                    <div class="space-y-6 flex-1">
+                        <div>
+                            <label class="text-xs text-white/60">Số lượng</label>
+                            <div class="flex mt-2">
+                                <input id="trade-amount" type="number" value="0.01" step="0.00001" class="flex-1 bg-white/10 border border-white/20 rounded-l-3xl px-6 py-4 font-mono text-xl focus:outline-none">
+                                <div id="trade-coin-unit" class="bg-white/10 border border-l-0 border-white/20 rounded-r-3xl px-6 flex items-center font-medium"></div>
+                            </div>
+                        </div>
+                  
+                        <div class="flex justify-between text-sm">
+                            <span class="text-white/60">Giá hiện tại</span>
+                            <span id="trade-current-price" class="font-mono"></span>
+                        </div>
+                  
+                        <div class="flex justify-between text-sm">
+                            <span class="text-white/60">Tổng giá trị</span>
+                            <span id="trade-total-value" class="font-mono font-semibold text-lg"></span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs bg-white/5 rounded-2xl p-4">
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-robot text-[#00ff9d]"></i>
+                                <span class="font-medium">Dự đoán AI (1h)</span>
+                            </div>
+                            <span id="ai-prediction" class="font-mono font-bold text-emerald-400">+2.8%</span>
+                        </div>
+                  
+                        <div onclick="executeTrade()" class="mt-auto cursor-pointer bg-gradient-to-r from-[#00ff9d] to-[#00b86e] text-black font-bold text-xl py-6 rounded-3xl text-center hover:scale-105 active:scale-95 neon-glow">
+                            <span id="trade-action-text">MUA NGAY</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- WALLET -->
+        <div id="page-wallet" class="page hidden">
+            <h2 class="text-3xl font-bold mb-8">Ví của bạn</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="md:col-span-2 glass rounded-3xl p-8">
+                    <h3 class="text-xl mb-6">Tài sản hiện có</h3>
+                    <div id="wallet-holdings" class="space-y-6"></div>
+                </div>
+                <div class="glass rounded-3xl p-8 flex flex-col">
+                    <h3 class="text-xl">USDT Balance</h3>
+                    <div id="wallet-usdt" class="text-6xl font-mono font-bold mt-4 mb-auto">50.00</div>
+                    <button onclick="navigateTo('deposit')" class="w-full py-4 bg-white text-black rounded-3xl font-semibold flex items-center justify-center gap-2">
+                        <i class="fas fa-plus"></i> NẠP / RÚT
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- MINING PAGE -->
+        <div id="page-mining" class="page hidden">
+            <div class="flex justify-between items-end mb-8">
+                <div>
+                    <h2 class="text-4xl font-bold mb-2 tracking-tighter">Cloud Mining </h2>
+                    <p class="text-white/60">Chọn rig • Tăng hashrate </p>
+                </div>
+                <div class="text-right">
+                    <div class="text-sm text-white/60">Tổng đã đào hôm nay</div>
+                    <div id="total-mined-today" class="font-mono text-3xl font-bold text-[#00ff9d]">0.00000</div>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="mining-grid"></div>
+            <!-- Mining Control Panel -->
+            <div class="mt-12 glass rounded-3xl p-8">
+                <div class="flex items-center justify-between mb-8">
+                    <h3 class="text-2xl font-semibold flex items-center gap-3">
+                        <i class="fas fa-hard-drive text-[#00ff9d]"></i>
+                        Rig Đang Hoạt Động
+                    </h3>
+                    <div id="current-coin-mining" class="font-medium text-lg"></div>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Hashrate & Power -->
+                    <div class="lg:col-span-2 space-y-8">
+                        <div>
+                            <div class="flex justify-between text-sm mb-3">
+                                <span class="text-white/70">Hashrate</span>
+                                <span id="current-hashrate" class="font-mono text-4xl font-bold text-[#00ff9d]">0.00</span>
+                            </div>
+                            <div class="text-xs text-white/50">MH/s</div>
+                            <div class="h-4 bg-white/10 rounded-3xl overflow-hidden mt-2">
+                                <div id="hashrate-bar" class="h-4 bg-gradient-to-r from-[#00ff9d] to-emerald-400 rounded-3xl transition-all duration-500" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-6">
+                            <div>
+                                <div class="text-white/60 text-sm mb-1">Nhiệt độ</div>
+                                <div id="temperature" class="font-mono text-3xl font-bold">42°C</div>
+                            </div>
+                            <div>
+                                <div class="text-white/60 text-sm mb-1">Quạt tản nhiệt</div>
+                                <div id="fan-speed" class="font-mono text-3xl font-bold">68%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Stats -->
+                    <div class="space-y-6">
+                        <div class="glass bg-black/40 rounded-3xl p-6">
+                            <div class="flex justify-between">
+                                <span class="text-white/60">Power Usage</span>
+                                <span id="power-usage" class="font-mono font-bold text-orange-400">245 W</span>
+                            </div>
+                        </div>
+                        <div class="glass bg-black/40 rounded-3xl p-6">
+                            <div class="flex justify-between">
+                                <span class="text-white/60">Efficiency</span>
+                                <span id="efficiency" class="font-mono font-bold text-emerald-400">92.4%</span>
+                            </div>
+                        </div>
+                        <div class="glass bg-black/40 rounded-3xl p-6">
+                            <div class="flex justify-between">
+                                <span class="text-white/60">Profit / giờ</span>
+                                <span id="profit-per-hour" class="font-mono font-bold text-[#00ff9d]">+0.84 USDT</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Power Level Selector -->
+                <div class="mt-10">
+                    <div class="text-white/60 text-sm mb-4">Chọn mức công suất</div>
+                    <div class="flex gap-3" id="power-levels">
+                        <!-- JS sẽ render -->
+                    </div>
+                </div>
+                <div onclick="toggleMining()" id="mining-button"
+                     class="mt-10 cursor-pointer bg-gradient-to-r from-[#00ff9d] to-[#00b86e] text-black font-bold text-2xl py-7 rounded-3xl text-center hover:scale-105 active:scale-95 neon-glow flex items-center justify-center gap-3">
+                    <i class="fas fa-play"></i>
+                    <span id="mining-button-text">BẮT ĐẦU ĐÀO</span>
+                </div>
+            </div>
+        </div>
+        <!-- HISTORY -->
+        <div id="page-history" class="page hidden">
+            <h2 class="text-3xl font-bold mb-8">Lịch sử giao dịch</h2>
+            <table class="w-full">
+                <thead>
+                    <tr class="text-white/60 text-sm">
+                        <th class="py-5 px-6 text-left">Thời gian</th>
+                        <th class="py-5 px-6 text-left">Loại</th>
+                        <th class="py-5 px-6 text-left">Coin</th>
+                        <th class="py-5 px-6 text-right">Số lượng</th>
+                        <th class="py-5 px-6 text-right">Giá</th>
+                        <th class="py-5 px-6 text-right">Tổng</th>
+                    </tr>
+                </thead>
+                <tbody id="history-body" class="font-mono text-sm divide-y divide-white/10"></tbody>
+            </table>
+        </div>
+        <!-- DEPOSIT / WITHDRAW - ĐÃ NÂNG CẤP -->
+               <!-- DEPOSIT / WITHDRAW - ĐÃ CẢI THIỆN -->
+        <div id="page-deposit" class="page hidden">
+            <h2 class="text-3xl font-bold mb-8">Nạp &amp; Rút tiền</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- NẠP TIỀN -->
+                <div class="glass rounded-3xl p-8">
+                    <h3 class="text-2xl mb-6 flex items-center"><i class="fas fa-arrow-down-to-line mr-3 text-emerald-400"></i> NẠP TIỀN</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-sm text-white/60 mb-2">Chọn coin</label>
+                            <select id="deposit-coin" onchange="updateDepositUI()" class="w-full bg-white/10 border border-white/20 rounded-3xl px-6 py-5 text-lg text-white"></select>
+                        </div>
+                        <div>
+                            <label class="block text-sm text-white/60 mb-2">Số lượng</label>
+                            <input id="deposit-amount" type="number" value="100" class="w-full bg-white/10 border border-white/20 rounded-3xl px-6 py-5 text-2xl font-mono">
+                        </div>
+                        <div id="deposit-address-box" class="hidden bg-white/5 rounded-2xl p-4">
+                            <div class="text-xs text-white/60 mb-1">Địa chỉ nạp (testnet)</div>
+                            <div class="flex items-center bg-black/40 rounded-xl px-4 py-3 font-mono text-sm" id="deposit-address">0x7a8b9cD2eF1234567890ABCDEF1234567890ABCD</div>
+                            <button onclick="copyDepositAddress()" class="mt-3 text-xs flex items-center gap-2 text-[#00ff9d] hover:text-white"><i class="fas fa-copy"></i> Sao chép địa chỉ</button>
+                        </div>
+                        <div class="text-xs bg-white/5 rounded-2xl p-4 flex justify-between">
+                            <span class="text-white/60">Phí nạp:</span>
+                            <span id="deposit-fee-display" class="font-mono text-emerald-400">0 USDT</span>
+                        </div>
+                        <button onclick="fakeDeposit()" class="w-full py-6 text-xl font-bold bg-gradient-to-r from-emerald-400 to-teal-400 text-black rounded-3xl hover:scale-105">XÁC NHẬN NẠP NGAY</button>
+                    </div>
+                </div>
+          
+                <!-- RÚT TIỀN -->
+                <div class="glass rounded-3xl p-8">
+                    <h3 class="text-2xl mb-6 flex items-center"><i class="fas fa-arrow-up-from-line mr-3 text-red-400"></i> RÚT TIỀN</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-sm text-white/60 mb-2">Chọn coin</label>
+                            <select id="withdraw-coin" onchange="updateWithdrawUI()" class="w-full bg-white/10 border border-white/20 rounded-3xl px-6 py-5 text-lg text-white"></select>
+                        </div>
+                        <div>
+                            <label class="block text-sm text-white/60 mb-2">Số lượng</label>
+                            <input id="withdraw-amount" type="number" value="50" class="w-full bg-white/10 border border-white/20 rounded-3xl px-6 py-5 text-2xl font-mono" oninput="updateWithdrawUI()">
+                        </div>
+                        <div>
+                            <label class="block text-sm text-white/60 mb-2">Địa chỉ ví nhận</label>
+                            <input id="withdraw-address" type="text" placeholder="0x... hoặc bc1..." class="w-full bg-white/10 border border-white/20 rounded-3xl px-6 py-5 text-lg font-mono">
+                        </div>
+                        <div class="text-xs bg-white/5 rounded-2xl p-4 flex justify-between items-center">
+                            <span class="text-white/60">Phí rút:</span>
+                            <span id="withdraw-fee-display" class="font-mono text-red-400">0 USDT</span>
+                        </div>
+                        <div class="text-xs text-white/50 flex items-center gap-2">
+                            <i class="fas fa-info-circle"></i>
+                            Số dư sau rút: <span id="withdraw-after" class="font-mono font-semibold text-[#00ff9d]">50.00 USDT</span>
+                        </div>
+                        <button onclick="fakeWithdraw()" class="w-full py-6 text-xl font-bold bg-gradient-to-r from-red-400 to-rose-400 text-black rounded-3xl hover:scale-105">XÁC NHẬN RÚT NGAY</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- SHOP PAGE -->
+        <div id="page-shop" class="page hidden">
+            <div class="flex justify-between items-end mb-8">
+                <div>
+                    <h2 class="text-4xl font-bold tracking-[-1px] flex items-center gap-3">
+                        <i class="fas fa-store text-[#00ff9d]"></i>
+                        CỬA HÀNG DANH HIỆU 
+                    </h2>
+                    <p class="text-white/60 text-lg">Mua ngay danh hiệu độc quyền </p>
+                </div>
+                <div class="flex items-center gap-4 bg-white/10 px-8 py-4 rounded-3xl">
+                    <i class="fas fa-coins text-[#00ff9d] text-2xl"></i>
+                    <div>
+                        <span class="text-white/60 text-sm">Số dư hiện tại</span>
+                        <span id="shop-balance" class="block font-mono text-3xl font-bold text-[#00ff9d]">50.00 USDT</span>
+                    </div>
+                </div>
+            </div>
+            <div id="shop-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            <div class="mt-16">
+                <h3 class="text-2xl font-semibold mb-6 flex items-center gap-3">
+                    <i class="fas fa-trophy text-[#00ff9d]"></i>
+                    DANH HIỆU CỦA BẠN
+                </h3>
+                <div id="owned-badges-grid" class="flex flex-wrap gap-6"></div>
+            </div>
+        </div>
+    </div>
+    <!-- TOAST -->
+    <div id="toast" onclick="this.classList.add('hidden')" class="hidden fixed bottom-6 right-6 bg-black border border-[#00ff9d] text-[#00ff9d] px-8 py-4 rounded-3xl shadow-2xl flex items-center gap-3 z-[9999]">
+        <span id="toast-text"></span>
+    </div>
+    <script>
+        const COINS = [
+            { id: 'bitcoin', symbol: 'BTC', name: 'Bitcoin', icon: '₿', color: '#f59e0b' },
+            { id: 'ethereum', symbol: 'ETH', name: 'Ethereum', icon: '⟠', color: '#3b82f6' },
+            { id: 'dogecoin', symbol: 'DOGE', name: 'Dogecoin', icon: '🐶', color: '#facc15' },
+            { id: 'solana', symbol: 'SOL', name: 'Solana', icon: '◎', color: '#a855f7' },
+            { id: 'cardano', symbol: 'ADA', name: 'Cardano', icon: '🔷', color: '#10b981' },
+            { id: 'binancecoin', symbol: 'BNB', name: 'BNB', icon: '🟡', color: '#f59e0b' }
+        ];
+        let favorites = [];
+        let pricesData = {};
+        let previousPrices = {};
+        let portfolio = {
+            usdt: 50,                    // ← ĐÃ NÂNG CẤP: Ban đầu chỉ có 50 USDT
+            holdings: {}                 // ← Không còn coin mặc định, người chơi phải nạp + trade
+        };
+        let transactionHistory = [];
+        let currentTradeCoin = null;
+        let currentTradeTab = 0;
+        let chartInstance = null;
+        let overviewChartInstance = null;
+        let chartPeriod = 24;
+        let masterChartData = {};
+        let miningIntervals = {};
+        let historicalCache = {};
+        let userBadges = [];
+        let activeBadge = null;
+
+        // ======================== DANH HIỆU SHOP ========================
+        const SHOP_ITEMS = [
+            { id: 'diamond', name: 'Diamond HODLer', desc: 'Danh hiệu cho holder kiên định, giữ coin qua mọi bear market', price: 299, icon: '💎', color: '#00ff9d' },
+            { id: 'moon', name: 'Moon Master', desc: 'Siêu anh hùng khi coin pump 100x - Moon ngay hôm nay!', price: 149, icon: '🌕', color: '#eab308' },
+            { id: 'whale', name: 'Crypto Whale', desc: 'Cá voi lớn nhất sàn - Thống trị thị trường', price: 199, icon: '🐳', color: '#3b82f6' },
+            { id: 'legend', name: 'Legend Miner', desc: 'Vua đào coin, hashrate bất bại, phần thưởng nhân đôi', price: 399, icon: '👑', color: '#a855f7' },
+            { id: 'flash', name: 'Flash Trader', desc: 'Giao dịch nhanh như tia chớp - 0.1 giây khớp lệnh', price: 89, icon: '⚡', color: '#ec4899' },
+            { id: 'nftking', name: 'NFT King', desc: 'Chủ nhân vương miện NFT - Danh hiệu hiếm nhất', price: 499, icon: '🪐', color: '#8b5cf6' },
+            { id: 'phoenix', name: 'Phoenix Trader', desc: 'Trader bất tử - sống sót qua mọi crash và pump mạnh mẽ', price: 259, icon: '🔥', color: '#f97316' },
+            { id: 'shark', name: 'Shark Investor', desc: 'Cá mập thị trường - nuốt chửng mọi cơ hội', price: 179, icon: '🦈', color: '#0ea5e9' },
+            { id: 'rocket', name: 'Rocket Mooner', desc: 'Bay cao đến mặt trăng với 100x pump', price: 129, icon: '🚀', color: '#a78bfa' },
+            { id: 'diamondhand', name: 'Diamond Hands', desc: 'Bàn tay kim cương - không bán dù thị trường sụp đổ', price: 349, icon: '👐', color: '#ec4899' }
+        ];
+
+        function generateRealisticPriceSeries(basePrice, numPoints, volatility, periodCode, coinId) {
+            const seed = (coinId.length * 1000) + (periodCode * 50);
+            let prices = [];
+            let price = basePrice * 0.92;
+            for (let i = 0; i < numPoints; i++) {
+                const progress = i / (numPoints - 1);
+                const wave = Math.sin(progress * Math.PI * 6 + seed / 100) * volatility * 1.2;
+                const noise = Math.cos(progress * Math.PI * 14 + seed) * volatility * 0.6;
+                const momentum = (progress - 0.5) * 0.008;
+                price = price * (1 + wave + noise + momentum);
+                prices.push(Math.max(price, basePrice * 0.65));
+            }
+            prices[prices.length - 1] = basePrice;
+            return prices;
+        }
+
+        async function getHistoricalPrices(coinId) {
+            const cacheKey = coinId;
+            if (historicalCache[cacheKey] && historicalCache[cacheKey].timestamp > Date.now() - 30 * 60 * 1000) {
+                return historicalCache[cacheKey].prices;
+            }
+            try {
+                const res = await fetch(`https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=30`);
+                if (!res.ok) throw new Error('API error');
+                const data = await res.json();
+                const prices = data.prices || [];
+                historicalCache[cacheKey] = { prices, timestamp: Date.now() };
+                return prices;
+            } catch (e) {
+                if (!masterChartData[coinId]) {
+                    const basePrice = pricesData[coinId]?.price || (coinId === 'bitcoin' ? 68245 : coinId === 'ethereum' ? 2789 : coinId === 'dogecoin' ? 0.142 : coinId === 'solana' ? 148.5 : coinId === 'cardano' ? 0.58 : 620);
+                    const masterPoints = 240;
+                    const volatility = 0.055;
+                    const seed = coinId.length * 777 + 1234;
+                    let price = basePrice * 0.88;
+                    let masterPrices = [];
+                    for (let i = 0; i < masterPoints; i++) {
+                        const progress = i / (masterPoints - 1);
+                        const wave = Math.sin(progress * Math.PI * 5 + seed) * volatility * 1.3;
+                        const noise = Math.cos(progress * Math.PI * 13 + seed * 2) * volatility * 0.7;
+                        const trend = (progress - 0.5) * 0.009;
+                        price = price * (1 + wave + noise + trend);
+                        masterPrices.push(Math.max(price, basePrice * 0.6));
+                    }
+                    masterPrices[masterPrices.length - 1] = basePrice;
+                    const now = Date.now();
+                    const startTime = now - 30 * 24 * 60 * 60 * 1000;
+                    const timeStep = (now - startTime) / (masterPoints - 1);
+                    masterChartData[coinId] = masterPrices.map((p, i) => [startTime + i * timeStep, p]);
+                }
+                return masterChartData[coinId];
+            }
+        }
+
+        function loadData() {
+            const saved = localStorage.getItem('cryptox_portfolio');
+            if (saved) {
+                portfolio = JSON.parse(saved);
+            } else {
+                // Nếu chưa có dữ liệu → khởi tạo ban đầu chỉ 50 USDT
+                portfolio = { usdt: 50, holdings: {} };
+            }
+            const hist = localStorage.getItem('cryptox_history');
+            if (hist) transactionHistory = JSON.parse(hist);
+            const badges = localStorage.getItem('cryptox_badges');
+            if (badges) userBadges = JSON.parse(badges);
+            const fav = localStorage.getItem('cryptox_favorites');
+            if (fav) favorites = JSON.parse(fav);
+            else favorites = ['bitcoin', 'ethereum', 'solana'];
+        }
+
+        function saveData() {
+            localStorage.setItem('cryptox_portfolio', JSON.stringify(portfolio));
+            localStorage.setItem('cryptox_history', JSON.stringify(transactionHistory));
+            localStorage.setItem('cryptox_badges', JSON.stringify(userBadges));
+            localStorage.setItem('cryptox_favorites', JSON.stringify(favorites));
+            localStorage.setItem('cryptox_active_badge', JSON.stringify(activeBadge || null));
+        }
+
+        async function fetchAllPrices() {
+            const oldPrices = {...pricesData};
+            try {
+                const ids = COINS.map(c => c.id).join(',');
+                const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd&include_24hr_change=true&include_market_cap=true`);
+                const data = await res.json();
+                COINS.forEach(coin => {
+                    if (data[coin.id]) {
+                        pricesData[coin.id] = {
+                            price: data[coin.id].usd,
+                            change24h: data[coin.id].usd_24h_change || 0,
+                            marketCap: data[coin.id].usd_market_cap || 0
+                        };
+                    }
+                });
+            } catch (e) {
+                COINS.forEach(coin => {
+                    if (!pricesData[coin.id]) {
+                        pricesData[coin.id] = {
+                            price: coin.id === 'bitcoin' ? 68245 : coin.id === 'ethereum' ? 2789 : coin.id === 'dogecoin' ? 0.142 : coin.id === 'solana' ? 148.5 : coin.id === 'cardano' ? 0.58 : 620,
+                            change24h: Math.random() * 14 - 7,
+                            marketCap: 1e11
+                        };
+                    } else {
+                        const fluctuation = pricesData[coin.id].price * (Math.random() * 0.008 - 0.004);
+                        pricesData[coin.id].price = Math.max(0.01, pricesData[coin.id].price + fluctuation);
+                        pricesData[coin.id].change24h = Math.max(-25, Math.min(25, pricesData[coin.id].change24h + (Math.random() * 2 - 1)));
+                    }
+                });
+            }
+      
+            COINS.forEach(coin => {
+                if (pricesData[coin.id]) previousPrices[coin.id] = pricesData[coin.id].price;
+            });
+            document.getElementById('last-update').innerHTML = `Cập nhật lúc ${new Date().toLocaleTimeString('vi-VN')} <span class="text-[#00ff9d]">● LIVE</span>`;
+            renderTicker();
+            renderMarketTable();
+            renderPortfolio();
+            renderTopMovers();
+            renderQuickTrade();
+            updateHeaderBalance();
+            if (overviewChartInstance) loadOverviewChart();
+        }
+
+        function renderTicker() {
+            const tickerEl = document.getElementById('ticker');
+            let html = '';
+            COINS.forEach(coin => {
+                const p = pricesData[coin.id] || { price: 0, change24h: 0 };
+                const changeColor = p.change24h >= 0 ? 'text-emerald-400' : 'text-red-400';
+                const changeSign = p.change24h >= 0 ? '+' : '';
+                html += `<div class="flex items-center gap-3 px-6 py-1 border-r border-white/10">
+                    <span style="color:${coin.color}" class="text-2xl">${coin.icon}</span>
+                    <div><span class="font-semibold">${coin.symbol}</span> <span class="font-mono ml-2">${p.price.toLocaleString('en-US')}</span></div>
+                    <span class="${changeColor} text-sm font-medium">${changeSign}${p.change24h.toFixed(2)}%</span>
+                </div>`;
+            });
+            tickerEl.innerHTML = html + html;
+        }
+
+        function renderMarketTable(filteredCoins = COINS) {
+            const tbody = document.getElementById('market-table-body');
+            tbody.innerHTML = filteredCoins.map(coin => {
+                const p = pricesData[coin.id] || { price: 0, change24h: 0, marketCap: 0 };
+                const changeColor = p.change24h >= 0 ? 'text-emerald-400' : 'text-red-400';
+                const changeSign = p.change24h >= 0 ? '+' : '';
+                return `<tr onclick="openCoinDetail('${coin.id}')" class="cursor-pointer hover:bg-white/5 border-b border-white/10 last:border-none">
+                    <td class="px-6 py-5 flex items-center gap-3">
+                        <span style="color:${coin.color}" class="text-3xl">${coin.icon}</span>
+                        <div><div class="font-semibold">${coin.name}</div><div class="text-white/50 text-xs">${coin.symbol}</div></div>
+                    </td>
+                    <td class="px-6 py-5 text-right font-mono">${p.price.toLocaleString('en-US')}</td>
+                    <td class="px-6 py-5 text-right ${changeColor}">${changeSign}${p.change24h.toFixed(2)}%</td>
+                    <td class="px-6 py-5 text-right font-mono text-white/70">${(p.marketCap / 1e9).toFixed(0)}B</td>
+                    <td class="px-6 py-5 text-right"><span class="inline-flex items-center px-4 py-1 text-xs font-medium rounded-3xl bg-white/10">24H VOL</span></td>
+                    <td class="px-6 py-5 text-right flex items-center gap-2">
+                        <button onclick="event.stopImmediatePropagation(); toggleFavorite('${coin.id}')" class="text-xl ${favorites.includes(coin.id) ? 'text-pink-400' : 'text-white/40 hover:text-pink-400'}">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                        <button onclick="event.stopImmediatePropagation();openCoinDetail('${coin.id}')" class="px-6 py-2 text-xs font-semibold bg-[#00ff9d] hover:bg-[#00ff9d]/90 text-black rounded-3xl">TRADE</button>
+                    </td>
+                </tr>`;
+            }).join('');
+        }
+
+        function filterMarket() {
+            const term = document.getElementById('market-search').value.toLowerCase().trim();
+            if (!term) return renderMarketTable();
+            const filtered = COINS.filter(c => c.name.toLowerCase().includes(term) || c.symbol.toLowerCase().includes(term));
+            renderMarketTable(filtered);
+        }
+
+        function renderTopMovers() {
+            const container = document.getElementById('top-movers');
+            const sorted = [...COINS].sort((a, b) => Math.abs(pricesData[b.id]?.change24h || 0) - Math.abs(pricesData[a.id]?.change24h || 0)).slice(0, 4);
+            container.innerHTML = sorted.map(coin => {
+                const p = pricesData[coin.id] || { price: 0, change24h: 0 };
+                const chColor = p.change24h >= 0 ? 'emerald' : 'red';
+                return `<div onclick="openCoinDetail('${coin.id}')" class="flex items-center gap-3 cursor-pointer hover:bg-white/5 p-3 rounded-2xl">
+                    <span style="color:${coin.color}" class="text-3xl">${coin.icon}</span>
+                    <div class="flex-1"><div class="font-semibold">${coin.symbol}</div><div class="text-xs text-white/60">${coin.name}</div></div>
+                    <div class="text-right"><div class="font-mono">${p.price.toLocaleString('en-US')}</div><div class="text-${chColor}-400 text-xs">${p.change24h >= 0 ? '+' : ''}${p.change24h.toFixed(2)}%</div></div>
+                </div>`;
+            }).join('');
+        }
+
+        function renderQuickTrade() {
+            const container = document.getElementById('quick-trade-grid');
+            container.innerHTML = COINS.map(coin => {
+                const p = pricesData[coin.id] || { price: 0, change24h: 0 };
+                const isFav = favorites.includes(coin.id);
+                return `<div onclick="openCoinDetail('${coin.id}')" class="card-hover glass rounded-3xl p-6 cursor-pointer flex flex-col items-center text-center relative">
+                    <button onclick="event.stopImmediatePropagation(); toggleFavorite('${coin.id}')" class="absolute top-4 right-4 text-2xl ${isFav ? 'text-pink-400' : 'text-white/30 hover:text-pink-400'}">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                    <div style="color:${coin.color}" class="text-5xl mb-4">${coin.icon}</div>
+                    <div class="font-semibold">${coin.symbol}</div>
+                    <div class="text-xs text-white/60">${coin.name}</div>
+                    <div class="mt-auto font-mono text-2xl">${p.price.toLocaleString('en-US')}</div>
+                    <div class="${p.change24h >= 0 ? 'text-emerald-400' : 'text-red-400'} text-sm">${p.change24h.toFixed(2)}%</div>
+                </div>`;
+            }).join('');
+        }
+
+        async function loadCoinChart(coinId, periodCode) {
+            if (!currentTradeCoin || currentTradeCoin.id !== coinId) return;
+            const canvas = document.getElementById('price-chart');
+            if (chartInstance) chartInstance.destroy();
+            const historicalPrices = await getHistoricalPrices(coinId);
+            let filteredPrices = [];
+            let labels = [];
+            const now = Date.now();
+            let timeAgoMs = 24 * 60 * 60 * 1000;
+            switch(periodCode) {
+                case 1: timeAgoMs = 60 * 60 * 1000; break;
+                case 24: timeAgoMs = 24 * 60 * 60 * 1000; break;
+                case 168: timeAgoMs = 7 * 24 * 60 * 60 * 1000; break;
+                case 720: timeAgoMs = 30 * 24 * 60 * 60 * 1000; break;
+            }
+            const cutoff = now - timeAgoMs;
+            let recentData = historicalPrices.filter(([ts]) => ts >= cutoff);
+            filteredPrices = recentData.map(([_, price]) => price);
+            if (filteredPrices.length < 8) filteredPrices = historicalPrices.slice(-120).map(([_, price]) => price);
+            const numPoints = filteredPrices.length;
+            labels = Array.from({ length: numPoints }, (_, i) => {
+                const reverseIdx = numPoints - 1 - i;
+                let agoValue;
+                if (periodCode === 1) {
+                    agoValue = Math.round(60 * reverseIdx / (numPoints - 1 || 1));
+                    return agoValue <= 1 ? 'Bây giờ' : `${agoValue}m`;
+                } else if (periodCode === 24) {
+                    agoValue = Math.round(24 * reverseIdx / (numPoints - 1 || 1));
+                    return agoValue <= 1 ? 'Bây giờ' : `${agoValue}h`;
+                } else {
+                    const daysTotal = periodCode / 24;
+                    agoValue = Math.round(daysTotal * reverseIdx / (numPoints - 1 || 1));
+                    return agoValue <= 1 ? 'Bây giờ' : `${agoValue}ng`;
+                }
+            });
+            chartInstance = new Chart(canvas, {
+                type: 'line',
+                data: { labels, datasets: [{ label: `${currentTradeCoin.symbol} Price`, data: filteredPrices, borderColor: '#00ff9d', borderWidth: 3.5, tension: 0.3, pointRadius: 0, pointHoverRadius: 6, pointBackgroundColor: '#fff' }] },
+                options: {
+                    plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false, displayColors: false, callbacks: { label: (ctx) => ctx.raw.toLocaleString('en-US') + ' USDT' } } },
+                    scales: { y: { grid: { color: 'rgba(255,255,255,0.08)' }, ticks: { color: '#fff', font: { size: 13 } } }, x: { grid: { color: 'rgba(255,255,255,0.08)' }, ticks: { color: '#aaa', maxTicksLimit: 12 } } },
+                    interaction: { intersect: false }
+                }
+            });
+        }
+
+        function setChartPeriod(days) {
+            chartPeriod = days;
+            document.querySelectorAll('.period-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = Array.from(document.querySelectorAll('.period-btn')).find(b => parseInt(b.dataset.period) === days);
+            if (activeBtn) activeBtn.classList.add('active');
+            if (currentTradeCoin) loadCoinChart(currentTradeCoin.id, days);
+        }
+
+        function loadOverviewChart() {
+            const canvas = document.getElementById('overview-chart');
+            if (overviewChartInstance) overviewChartInstance.destroy();
+            const baseTotal = calculateTotalValue();
+            const fakeTotals = Array(7).fill(0).map((_, i) => baseTotal * (0.96 + i * 0.015 + Math.random() * 0.008));
+            overviewChartInstance = new Chart(canvas, {
+                type: 'line',
+                data: {
+                    labels: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
+                    datasets: [{ label: 'Tổng giá trị (USDT)', data: fakeTotals, borderColor: '#00ff9d', borderWidth: 4, tension: 0.4, pointRadius: 0, pointHoverRadius: 7, pointBackgroundColor: '#fff', fill: true, backgroundColor: 'rgba(0, 255, 157, 0.1)' }]
+                },
+                options: {
+                    plugins: { legend: { display: false } },
+                    scales: { y: { grid: { color: 'rgba(255,255,255,0.08)' }, ticks: { color: '#fff', font: { size: 12 } } }, x: { grid: { color: 'rgba(255,255,255,0.08)' }, ticks: { color: '#aaa' } } }
+                }
+            });
+            document.getElementById('overview-total').innerHTML = baseTotal.toLocaleString('en-US') + ' USDT';
+        }
+
+        function openCoinDetail(coinId) {
+            currentTradeCoin = COINS.find(c => c.id === coinId);
+            if (!currentTradeCoin) return;
+            navigateTo('trade');
+            document.getElementById('trade-coin-icon').innerHTML = `<span style="color:${currentTradeCoin.color}" class="text-6xl">${currentTradeCoin.icon}</span>`;
+            document.getElementById('trade-coin-name').innerText = currentTradeCoin.name;
+            document.getElementById('trade-coin-symbol').innerText = currentTradeCoin.symbol;
+            const p = pricesData[coinId] || { price: 0, change24h: 0 };
+            document.getElementById('trade-price-big').innerHTML = `<span class="font-mono">${p.price.toLocaleString('en-US')}</span>`;
+            const changeEl = document.getElementById('trade-change-big');
+            changeEl.innerHTML = `${p.change24h >= 0 ? '▲' : '▼'} ${p.change24h.toFixed(2)}%`;
+            changeEl.className = p.change24h >= 0 ? 'text-emerald-400 text-xl font-medium' : 'text-red-400 text-xl font-medium';
+            document.getElementById('trade-coin-unit').innerText = currentTradeCoin.symbol;
+            document.getElementById('trade-current-price').innerText = p.price.toLocaleString('en-US') + ' USDT';
+            document.getElementById('ai-prediction').innerHTML = (Math.random() * 4 + 0.5).toFixed(1) + '% <i class="fas fa-arrow-trend-up ml-1"></i>';
+            loadCoinChart(coinId, chartPeriod);
+            renderFakeOrderBook();
+            const amountInput = document.getElementById('trade-amount');
+            amountInput.oninput = updateTradeTotal;
+            setTradeTab(currentTradeTab);
+        }
+
+        function renderFakeOrderBook() {
+            const p = pricesData[currentTradeCoin.id].price;
+            let bidsHTML = '', asksHTML = '';
+            for (let i = 0; i < 6; i++) {
+                const bidPrice = (p * (1 - i * 0.001)).toFixed(2);
+                bidsHTML += `<div class="flex justify-between"><span class="text-emerald-400">${bidPrice}</span><span class="font-mono">124.8k</span></div>`;
+                const askPrice = (p * (1 + i * 0.001)).toFixed(2);
+                asksHTML += `<div class="flex justify-between"><span class="text-red-400">${askPrice}</span><span class="font-mono">98.4k</span></div>`;
+            }
+            document.getElementById('fake-bids').innerHTML = bidsHTML;
+            document.getElementById('fake-asks').innerHTML = asksHTML;
+        }
+
+        function updateTradeTotal() {
+            const amount = parseFloat(document.getElementById('trade-amount').value) || 0;
+            const price = pricesData[currentTradeCoin.id].price;
+            const total = amount * price;
+            document.getElementById('trade-total-value').innerHTML = total.toLocaleString('en-US') + ' <span class="text-xs text-white/60">USDT</span>';
+        }
+
+        function setTradeTab(tab) {
+            currentTradeTab = tab;
+            const buyTab = document.getElementById('buy-tab');
+            const sellTab = document.getElementById('sell-tab');
+            if (tab === 0) {
+                buyTab.classList.add('bg-emerald-500/20', 'text-emerald-400'); buyTab.classList.remove('bg-red-500/20', 'text-red-400');
+                sellTab.classList.add('bg-red-500/20', 'text-red-400'); sellTab.classList.remove('bg-emerald-500/20', 'text-emerald-400');
+                document.getElementById('trade-action-text').innerText = 'MUA ' + currentTradeCoin.symbol + ' NGAY';
+            } else {
+                sellTab.classList.add('bg-emerald-500/20', 'text-emerald-400'); sellTab.classList.remove('bg-red-500/20', 'text-red-400');
+                buyTab.classList.add('bg-red-500/20', 'text-red-400'); buyTab.classList.remove('bg-emerald-500/20', 'text-emerald-400');
+                document.getElementById('trade-action-text').innerText = 'BÁN ' + currentTradeCoin.symbol + ' NGAY';
+            }
+            updateTradeTotal();
+        }
+
+        function executeTrade() {
+            if (!currentTradeCoin) return;
+            const amount = parseFloat(document.getElementById('trade-amount').value) || 0;
+            if (amount <= 0) return showToast('Số lượng phải lớn hơn 0!', 'error');
+            const price = pricesData[currentTradeCoin.id].price;
+            const fee = amount * price * 0.001;
+            const totalValue = amount * price;
+      
+            if (currentTradeTab === 0) {
+                if (portfolio.usdt < totalValue + fee) return showToast('Không đủ USDT!', 'error');
+                portfolio.usdt -= totalValue + fee;
+                portfolio.holdings[currentTradeCoin.id] = (portfolio.holdings[currentTradeCoin.id] || 0) + amount;
+            } else {
+                if ((portfolio.holdings[currentTradeCoin.id] || 0) < amount) return showToast('Không đủ coin!', 'error');
+                portfolio.usdt += totalValue - fee;
+                portfolio.holdings[currentTradeCoin.id] -= amount;
+            }
+      
+            transactionHistory.unshift({
+                time: new Date().toLocaleString('vi-VN'),
+                type: currentTradeTab === 0 ? 'MUA' : 'BÁN',
+                coin: currentTradeCoin.symbol,
+                amount: amount,
+                price: price,
+                total: totalValue
+            });
+      
+            saveData();
+            renderPortfolio();
+            updateHeaderBalance();
+            showToast(currentTradeTab === 0 ? `Đã mua ${amount} ${currentTradeCoin.symbol} thành công!` : `Đã bán ${amount} ${currentTradeCoin.symbol} thành công!`, 'success');
+            setTimeout(() => navigateTo('wallet'), 800);
+        }
+
+        function renderPortfolio() {
+            const container = document.getElementById('portfolio-cards');
+            let html = `<div onclick="navigateTo('wallet')" class="col-span-2 glass rounded-3xl p-6 flex flex-col neon-glow">
+                <div class="flex justify-between"><span class="font-semibold">Tổng giá trị</span><span class="text-[#00ff9d] text-sm">+2.4% HÔM NAY</span></div>
+                <div id="portfolio-total-value-big" class="text-5xl font-mono font-bold mt-auto">${calculateTotalValue().toLocaleString('en-US')}</div>
+                <div class="text-white/60">USDT</div>
+            </div>`;
+      
+            COINS.forEach(coin => {
+                const amount = portfolio.holdings[coin.id] || 0;
+                const price = pricesData[coin.id] ? pricesData[coin.id].price : 0;
+                const value = amount * price;
+                if (amount > 0) {
+                    html += `<div onclick="openCoinDetail('${coin.id}')" class="card-hover glass rounded-3xl p-6 flex flex-col cursor-pointer">
+                        <div class="flex justify-between items-start"><span style="color:${coin.color}" class="text-4xl">${coin.icon}</span><span class="text-xs uppercase">${coin.symbol}</span></div>
+                        <div class="mt-auto"><div class="font-mono text-3xl">${amount.toLocaleString('en-US')}</div><div class="text-white/60 text-sm">${value.toFixed(2)} USDT</div></div>
+                    </div>`;
+                }
+            });
+            container.innerHTML = html;
+      
+            const walletContainer = document.getElementById('wallet-holdings');
+            let whtml = '';
+            COINS.forEach(coin => {
+                const amount = portfolio.holdings[coin.id] || 0;
+                const price = pricesData[coin.id] ? pricesData[coin.id].price : 0;
+                const value = amount * price;
+                if (amount > 0) {
+                    whtml += `<div class="flex items-center justify-between border-b border-white/10 pb-6 last:border-none">
+                        <div class="flex items-center gap-4"><span style="color:${coin.color}" class="text-4xl">${coin.icon}</span><div><div class="font-semibold">${coin.name}</div><div class="text-xs text-white/60">${coin.symbol}</div></div></div>
+                        <div class="text-right"><div class="font-mono text-2xl">${amount}</div><div class="text-[#00ff9d]">${value.toFixed(2)} USDT</div></div>
+                    </div>`;
+                }
+            });
+            walletContainer.innerHTML = whtml || `<p class="text-white/40 text-center py-12">Chưa có coin nào.<br>Bắt đầu nạp tiền và trade nhé!</p>`;
+      
+            document.getElementById('wallet-usdt').innerText = portfolio.usdt.toLocaleString('en-US');
+            document.getElementById('total-portfolio-value').innerHTML = `<span class="font-mono">${calculateTotalValue().toLocaleString('en-US')} USDT</span>`;
+        }
+
+        function calculateTotalValue() {
+            let total = portfolio.usdt;
+            COINS.forEach(coin => {
+                const amount = portfolio.holdings[coin.id] || 0;
+                const price = pricesData[coin.id] ? pricesData[coin.id].price : 0;
+                total += amount * price;
+            });
+            return total;
+        }
+
+        function updateHeaderBalance() {
+            document.getElementById('header-usdt').innerText = portfolio.usdt.toLocaleString('en-US') + ' USDT';
+            const shopBalance = document.getElementById('shop-balance');
+            if (shopBalance) shopBalance.textContent = portfolio.usdt.toLocaleString('en-US') + ' USDT';
+        }
+
+        function updateProfileDisplay() {
+            const profile = document.getElementById('user-profile');
+            if (!profile) return;
+            if (activeBadge) {
+                profile.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span style="color:${activeBadge.color}" class="text-3xl badge-icon">${activeBadge.icon}</span>
+                        <span class="font-medium text-lg">${activeBadge.name}</span>
+                    </div>
+                `;
+            } else {
+                profile.innerHTML = `<div class="flex items-center"><span class="font-medium text-lg">Crypto Trader</span></div>`;
+            }
+        }
+
+        function renderShop() {
+            const grid = document.getElementById('shop-grid');
+            let html = '';
+            SHOP_ITEMS.forEach(item => {
+                const isOwned = userBadges.some(b => b.id === item.id);
+                html += `
+                    <div class="glass rounded-3xl p-8 flex flex-col items-center text-center card-hover border border-transparent hover:border-[#00ff9d]/30">
+                        <div style="color: ${item.color};" class="text-8xl mb-6 drop-shadow-lg badge-icon">${item.icon}</div>
+                        <h4 class="font-bold text-2xl mb-2">${item.name}</h4>
+                        <p class="text-white/60 text-sm mb-8 min-h-[52px]">${item.desc}</p>
+                        <div class="mt-auto w-full flex justify-between items-end">
+                            <div>
+                                <span class="text-xs text-white/50">GIÁ</span>
+                                <div class="font-mono text-4xl font-bold text-[#00ff9d]">${item.price}</div>
+                                <span class="text-xs text-white/60">USDT</span>
+                            </div>
+                            ${isOwned
+                                ? `<div onclick="event.stopImmediatePropagation();" class="px-8 py-4 bg-emerald-500/20 text-emerald-400 font-bold rounded-3xl flex items-center gap-3 text-sm badge-icon"><span style="color:${item.color}" class="text-4xl">${item.icon}</span> ĐÃ SỞ HỮU</div>`
+                                : `<button onclick="buyBadge('${item.id}'); event.stopImmediatePropagation();" class="flex-1 py-5 bg-gradient-to-r from-[#00ff9d] to-[#00b86e] text-black font-bold text-xl rounded-3xl hover:scale-105 flex items-center justify-center gap-2"><span>MUA NGAY</span><span class="font-mono">${item.price}</span><span class="text-xs">USDT</span></button>`
+                            }
+                        </div>
+                    </div>
+                `;
+            });
+            grid.innerHTML = html;
+            const ownedGrid = document.getElementById('owned-badges-grid');
+            if (userBadges.length === 0) {
+                ownedGrid.innerHTML = `<div class="text-white/40 text-center py-16">Bạn chưa có danh hiệu nào.<br>Hãy mua ngay!</div>`;
+                return;
+            }
+            let ownedHtml = '';
+            userBadges.forEach(b => {
+                const isActive = activeBadge && activeBadge.id === b.id;
+                ownedHtml += `
+                    <div class="glass rounded-3xl p-6 owned-badge-card">
+                        <div class="flex items-center gap-5">
+                            <div style="color:${b.color}" class="text-7xl badge-icon flex-shrink-0">${b.icon}</div>
+                            <div class="flex-1 min-w-0">
+                                <div class="font-bold text-xl truncate">${b.name}</div>
+                                <div class="text-white/60 text-sm line-clamp-2">${b.desc}</div>
+                            </div>
+                        </div>
+                        <div class="button-row">
+                            ${isActive
+                                ? `<div class="w-full py-3 bg-emerald-400/20 text-emerald-400 rounded-3xl text-sm font-bold flex items-center justify-center gap-2"><i class="fas fa-check-circle"></i> ĐANG HIỂN THỊ TRÊN PROFILE</div>`
+                                : `<button onclick="setActiveBadge('${b.id}'); event.stopImmediatePropagation();" class="w-full py-3 bg-white/10 hover:bg-[#00ff9d] hover:text-black text-white rounded-3xl text-sm font-medium">ĐẶT LÀM PROFILE</button>`
+                            }
+                        </div>
+                    </div>
+                `;
+            });
+            ownedGrid.innerHTML = ownedHtml;
+        }
+
+        function buyBadge(badgeId) {
+            const item = SHOP_ITEMS.find(i => i.id === badgeId);
+            if (!item) return;
+            if (portfolio.usdt < item.price) return showToast('Không đủ USDT để mua danh hiệu này!', 'error');
+            portfolio.usdt -= item.price;
+            let newBadge = null;
+            if (!userBadges.some(b => b.id === item.id)) {
+                newBadge = { id: item.id, name: item.name, desc: item.desc, icon: item.icon, color: item.color };
+                userBadges.push(newBadge);
+            } else {
+                newBadge = userBadges.find(b => b.id === item.id);
+            }
+            if (!activeBadge) activeBadge = newBadge;
+            saveData();
+            updateHeaderBalance();
+            renderShop();
+            updateProfileDisplay();
+            renderPortfolio();
+            showToast(`🎉 Chúc mừng! Bạn đã sở hữu <strong>${item.name}</strong>!`, 'success');
+        }
+
+        function setActiveBadge(badgeId) {
+            const badge = userBadges.find(b => b.id === badgeId);
+            if (badge) {
+                activeBadge = badge;
+                saveData();
+                updateProfileDisplay();
+                renderShop();
+                showToast(`✅ Đã đặt <strong>${badge.name}</strong> làm danh hiệu profile!`, 'success');
+            }
+        }
+
+        function renderMiningPage() {
+            const container = document.getElementById('mining-grid');
+            container.innerHTML = COINS.map(coin => `
+            <div onclick="selectMiningCoin('${coin.id}')" class="card-hover glass cursor-pointer rounded-3xl p-8 text-center border-2 border-transparent hover:border-[#00ff9d]/50">
+                <div class="text-7xl mb-6" style="color:${coin.color}">${coin.icon}</div>
+                <h4 class="font-bold text-2xl">${coin.name}</h4>
+                <p class="text-sm text-white/50">${coin.symbol}</p>
+                <div class="mt-8 pt-6 border-t border-white/10">
+                    <div class="text-xs text-white/60">Ước tính thưởng</div>
+                    <div class="font-mono text-xl text-emerald-400">~0.0024 ${coin.symbol}/giờ</div>
+                </div>
+            </div>`).join('');
+        }
+
+        function selectMiningCoin(coinId) {
+            const coin = COINS.find(c => c.id === coinId);
+            if (!coin) return;
+            currentMiningCoin = coin;
+            document.getElementById('current-coin-mining').innerHTML = `<span style="color:${coin.color}" class="text-2xl">${coin.icon}</span> ${coin.name}`;
+            currentPowerLevel = 1;
+            renderPowerLevels();
+            if (isMining) stopMining();
+            showToast(`Đã chọn đào ${coin.symbol}`, 'success');
+        }
+
+        function renderPowerLevels() {
+            const container = document.getElementById('power-levels');
+            container.innerHTML = powerLevels.map((level, index) => `
+                <button onclick="setPowerLevel(${index})" class="flex-1 py-4 rounded-3xl text-sm font-bold transition-all ${index === currentPowerLevel ? 'bg-[#00ff9d] text-black scale-105' : 'glass hover:bg-white/10'}">
+                    ${level.name}<br>
+                    <span class="font-mono text-xs">${level.hashrate} MH/s • ${level.power}W</span>
+                </button>
+            `).join('');
+        }
+
+        function setPowerLevel(level) {
+            currentPowerLevel = level;
+            renderPowerLevels();
+            if (isMining && currentMiningCoin) updateMiningUI();
+        }
+
+        function updateMiningUI() {
+            if (!currentMiningCoin) return;
+            const level = powerLevels[currentPowerLevel];
+            const hashrate = level.hashrate + Math.random() * 8;
+            document.getElementById('current-hashrate').textContent = hashrate.toFixed(1);
+            document.getElementById('hashrate-bar').style.width = Math.min(100, (hashrate / 250) * 100) + '%';
+            document.getElementById('power-usage').textContent = level.power + ' W';
+            document.getElementById('efficiency').textContent = level.efficiency + '%';
+            document.getElementById('temperature').textContent = (38 + currentPowerLevel * 8) + '°C';
+            document.getElementById('fan-speed').textContent = (55 + currentPowerLevel * 15) + '%';
+            const profit = (level.hashrate * 0.008).toFixed(2);
+            document.getElementById('profit-per-hour').textContent = `+${profit} USDT`;
+        }
+
+        function toggleMining() {
+            if (!currentMiningCoin) return showToast('Vui lòng chọn coin để đào!', 'error');
+            if (isMining) stopMining(); else startMining();
+        }
+
+        function startMining() {
+            isMining = true;
+            document.getElementById('mining-button').classList.add('!bg-orange-500', '!from-orange-500', '!to-red-500');
+            document.getElementById('mining-button-text').innerHTML = `<i class="fas fa-pause"></i> DỪNG ĐÀO`;
+            updateMiningUI();
+            miningInterval = setInterval(() => {
+                if (!currentMiningCoin) return;
+                const level = powerLevels[currentPowerLevel];
+                const reward = (level.hashrate / 10000) * (0.8 + Math.random() * 0.6);
+                portfolio.holdings[currentMiningCoin.id] = (portfolio.holdings[currentMiningCoin.id] || 0) + reward;
+                totalMinedToday += reward;
+                document.getElementById('total-mined-today').textContent = totalMinedToday.toFixed(5);
+                renderPortfolio();
+                saveData();
+                updateMiningUI();
+            }, 2800);
+        }
+
+        function stopMining() {
+            isMining = false;
+            clearInterval(miningInterval);
+            document.getElementById('mining-button').classList.remove('!bg-orange-500', '!from-orange-500', '!to-red-500');
+            document.getElementById('mining-button-text').innerHTML = `<i class="fas fa-play"></i> TIẾP TỤC ĐÀO`;
+            showToast(`Đã dừng đào ${currentMiningCoin.symbol}`, 'success');
+        }
+
+        function renderHistory() {
+            const tbody = document.getElementById('history-body');
+            tbody.innerHTML = transactionHistory.map(t => `
+            <tr class="hover:bg-white/5">
+                <td class="py-5 px-6">${t.time}</td>
+                <td class="py-5 px-6"><span class="px-4 py-1 text-xs rounded-3xl ${t.type === 'MUA' ? 'bg-emerald-400 text-black' : 'bg-red-400 text-black'}">${t.type}</span></td>
+                <td class="py-5 px-6">${t.coin}</td>
+                <td class="py-5 px-6 text-right font-medium">${t.amount}</td>
+                <td class="py-5 px-6 text-right font-mono">${t.price.toLocaleString('en-US')}</td>
+                <td class="py-5 px-6 text-right font-mono">${t.total.toLocaleString('en-US')} USDT</td>
+            </tr>`).join('');
+        }
+
+        function fakeDeposit() {
+            const amount = parseFloat(document.getElementById('deposit-amount').value) || 100;
+            const coin = document.getElementById('deposit-coin').value;
+            let fee = 0;
+            if (coin === 'BTC') fee = 0.0005;
+            else if (coin === 'ETH') fee = 0.005;
+            if (coin === 'USDT') {
+                portfolio.usdt += amount;
+            } else {
+                const coinId = coin.toLowerCase() === 'btc' ? 'bitcoin' : coin.toLowerCase() === 'eth' ? 'ethereum' : 'dogecoin';
+                portfolio.holdings[coinId] = (portfolio.holdings[coinId] || 0) + amount * 0.001;
+            }
+            saveData();
+            renderPortfolio();
+            updateHeaderBalance();
+            showToast(`✅ Nạp thành công +${amount} ${coin} (phí ${fee})`, 'success');
+        }
+
+        function fakeWithdraw() {
+            const amount = parseFloat(document.getElementById('withdraw-amount').value) || 0;
+            const coinSelect = document.getElementById('withdraw-coin').value;
+            let fee = 0;
+            if (coinSelect === 'BTC') fee = 0.0005;
+            else if (coinSelect === 'ETH') fee = 0.005;
+            if (coinSelect === 'USDT') {
+                if (portfolio.usdt < amount + fee) return showToast('Không đủ số dư!', 'error');
+                portfolio.usdt -= amount + fee;
+            } else {
+                const coinId = coinSelect === 'BTC' ? 'bitcoin' : coinSelect === 'ETH' ? 'ethereum' : 'dogecoin';
+                if ((portfolio.holdings[coinId] || 0) < amount) return showToast('Không đủ coin!', 'error');
+                portfolio.holdings[coinId] -= amount;
+            }
+            saveData();
+            renderPortfolio();
+            updateHeaderBalance();
+            showToast(`✅ Rút thành công -${amount} ${coinSelect} (phí ${fee})`, 'success');
+        }
+
+        function updateWithdrawFee() {
+            const amount = parseFloat(document.getElementById('withdraw-amount').value) || 0;
+            const coinSelect = document.getElementById('withdraw-coin').value;
+            let fee = 0;
+            if (coinSelect === 'BTC') fee = 0.0005;
+            else if (coinSelect === 'ETH') fee = 0.005;
+            document.getElementById('withdraw-fee').innerHTML = fee + ' ' + coinSelect;
+            const after = coinSelect === 'USDT' ? portfolio.usdt - amount - fee : portfolio.usdt;
+            document.getElementById('withdraw-after').innerHTML = after.toFixed(2) + ' USDT';
+        }
+
+        function populateWithdrawSelect() {
+            const select = document.getElementById('withdraw-coin');
+            select.innerHTML = `
+                <option value="USDT">USDT - ${portfolio.usdt.toLocaleString('en-US')}</option>
+                <option value="BTC">BTC - ${(portfolio.holdings.bitcoin || 0).toFixed(4)}</option>
+                <option value="ETH">ETH - ${(portfolio.holdings.ethereum || 0).toFixed(4)}</option>
+                <option value="DOGE">DOGE - ${(portfolio.holdings.dogecoin || 0).toFixed(2)}</option>
+            `;
+            updateWithdrawFee();
+        }
+
+        function navigateTo(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+    const target = document.getElementById('page-' + page);
+    if (target) target.classList.remove('hidden');
+
+    document.querySelectorAll('nav a').forEach(a => a.classList.remove('nav-active'));
+    const navEl = document.getElementById('nav-' + page);
+    if (navEl) navEl.classList.add('nav-active');
+
+    if (page === 'market') fetchAllPrices();
+    if (page === 'wallet') renderPortfolio();
+    if (page === 'history') renderHistory();
+    if (page === 'mining') {
+        renderMiningPage();
+        renderPowerLevels();
+        document.getElementById('total-mined-today').textContent = totalMinedToday.toFixed(5);
+    }
+    if (page === 'deposit') {
+        populateDepositSelect();
+        populateWithdrawSelect();
+        updateDepositUI();
+        updateWithdrawUI();
+    }
+    if (page === 'dashboard') {
+        setTimeout(() => { if (!overviewChartInstance) loadOverviewChart(); }, 100);
+    }
+    if (page === 'shop') {
+        renderShop();
+        updateHeaderBalance();
+    }
+}
+
+        function showToast(text, type = 'success') {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-text').innerHTML = `<i class="${type === 'success' ? 'fas fa-check-circle' : 'fas fa-triangle-exclamation'}"></i> ${text}`;
+            toast.style.borderColor = type === 'success' ? '#00ff9d' : '#f59e0b';
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 2800);
+        }
+
+        function showNotifications() {
+            const count = calculateBigChangeCount();
+            if (count === 0) {
+                showToast('Không có biến động lớn nào trong danh sách yêu thích.', 'success');
+                return;
+            }
+            let message = '📢 <strong>Biến động mạnh:</strong><br>';
+            favorites.forEach(id => {
+                const coin = COINS.find(c => c.id === id);
+                if (!coin || !pricesData[id]) return;
+                const ch = pricesData[id].change24h || 0;
+                if (Math.abs(ch) > 4) {
+                    const color = ch >= 0 ? 'text-emerald-400' : 'text-red-400';
+                    message += `<span class="${color}">${coin.symbol} ${ch >= 0 ? '▲' : '▼'} ${ch.toFixed(1)}%</span><br>`;
+                }
+            });
+            showToast(message, 'success');
+        }
+
+        let currentMiningCoin = null;
+        let miningInterval = null;
+        let isMining = false;
+        let totalMinedToday = 0;
+        let currentPowerLevel = 2;
+        const powerLevels = [
+            { name: "Low", hashrate: 45, power: 120, efficiency: 88, color: "#22c55e" },
+            { name: "Medium", hashrate: 98, power: 245, efficiency: 92, color: "#eab308" },
+            { name: "High", hashrate: 168, power: 380, efficiency: 89, color: "#f97316" },
+            { name: "Overclock", hashrate: 215, power: 520, efficiency: 76, color: "#ef4444" }
+        ];
+
+        function calculateBigChangeCount() {
+            let count = 0;
+            favorites.forEach(id => {
+                if (pricesData[id] && Math.abs(pricesData[id].change24h || 0) > 4) count++;
+            });
+            return count;
+        }
+
+        function updateNotificationBadge() {
+            const count = calculateBigChangeCount();
+            const badge = document.getElementById('notif-badge');
+            if (count > 0) {
+                badge.textContent = count;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        function showFavorites() {
+            let html = `<div class="text-lg font-semibold mb-3">❤️ Danh sách yêu thích (${favorites.length})</div>`;
+            favorites.forEach(id => {
+                const coin = COINS.find(c => c.id === id);
+                if (!coin || !pricesData[id]) return;
+                const p = pricesData[id];
+                const changeColor = p.change24h >= 0 ? 'text-emerald-400' : 'text-red-400';
+                const sign = p.change24h >= 0 ? '+' : '';
+                html += `
+                    <div class="flex justify-between items-center py-2 border-b border-white/10 last:border-none">
+                        <div class="flex items-center gap-3">
+                            <span style="color:${coin.color}" class="text-2xl">${coin.icon}</span>
+                            <div><span class="font-semibold">${coin.symbol}</span></div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-mono">${p.price.toLocaleString('en-US')}</div>
+                            <div class="${changeColor} text-sm">${sign}${p.change24h.toFixed(2)}%</div>
+                        </div>
+                    </div>`;
+            });
+            if (favorites.length === 0) html += `<div class="text-white/40 py-4">Chưa có coin yêu thích nào</div>`;
+            showToast(html, 'success');
+        }
+
+        function toggleFavorite(coinId) {
+            if (favorites.includes(coinId)) {
+                favorites = favorites.filter(id => id !== coinId);
+            } else {
+                favorites.push(coinId);
+            }
+            saveData();
+            renderMarketTable();
+            renderQuickTrade();
+            updateNotificationBadge();
+            showToast(favorites.includes(coinId) ? '❤️ Đã thêm vào yêu thích' : '💔 Đã bỏ yêu thích', 'success');
+        }
+
+        async function launchApp() {
+            loadData();
+            await fetchAllPrices();
+            setInterval(() => {
+                fetchAllPrices();
+                updateNotificationBadge();
+            }, 25000);
+            renderPortfolio();
+            updateHeaderBalance();
+            updateProfileDisplay();
+            updateNotificationBadge();
+            navigateTo('dashboard');
+            console.log('%c✅ CryptoX đã nâng cấp hoàn chỉnh: Ban đầu chỉ 50 USDT + Nạp/Rút mới!', 'color:#00ff9d; font-size:16px; font-weight:700');
+        }
+        window.onload = launchApp;
+        // ======================== HÀM NẠP / RÚT MỚI ========================
+function populateDepositSelect() {
+    const select = document.getElementById('deposit-coin');
+    let html = `<option value="USDT">USDT (Tether) - Miễn phí</option>`;
+    COINS.forEach(coin => {
+        html += `<option value="${coin.symbol}">${coin.name} (${coin.symbol})</option>`;
+    });
+    select.innerHTML = html;
+}
+
+function populateWithdrawSelect() {
+    const select = document.getElementById('withdraw-coin');
+    let html = `<option value="USDT">USDT - ${portfolio.usdt.toLocaleString('en-US')}</option>`;
+    COINS.forEach(coin => {
+        const amount = portfolio.holdings[coin.id] || 0;
+        html += `<option value="${coin.symbol}">${coin.name} (${coin.symbol}) - ${amount.toFixed(coin.decimals || 4)}</option>`;
+    });
+    select.innerHTML = html;
+}
+
+function updateDepositUI() {
+    const coinType = document.getElementById('deposit-coin').value;
+    const addressBox = document.getElementById('deposit-address-box');
+    if (coinType === 'USDT') {
+        addressBox.classList.add('hidden');
+        document.getElementById('deposit-fee-display').innerHTML = `0 USDT <span class="text-emerald-400 text-xs">(Miễn phí)</span>`;
+    } else {
+        addressBox.classList.remove('hidden');
+        const feeText = coinType === 'BTC' ? '0.0005 BTC' : coinType === 'ETH' ? '0.005 ETH' : '0.01 ' + coinType;
+        document.getElementById('deposit-fee-display').innerHTML = feeText;
+    }
+}
+
+function updateWithdrawUI() {
+    const coinType = document.getElementById('withdraw-coin').value;
+    const amount = parseFloat(document.getElementById('withdraw-amount').value) || 0;
+    let fee = coinType === 'BTC' ? 0.0005 : coinType === 'ETH' ? 0.005 : (coinType === 'USDT' ? 1 : 0.01);
+    document.getElementById('withdraw-fee-display').innerHTML = fee + ' ' + coinType;
+
+    let after = portfolio.usdt;
+    if (coinType !== 'USDT') {
+        const coin = COINS.find(c => c.symbol === coinType);
+        const holding = portfolio.holdings[coin.id] || 0;
+        after = holding - amount;
+    } else {
+        after = portfolio.usdt - amount - fee;
+    }
+    document.getElementById('withdraw-after').innerHTML = Math.max(0, after).toFixed(2) + ' ' + (coinType === 'USDT' ? 'USDT' : coinType);
+}
+
+function copyDepositAddress() {
+    const addr = document.getElementById('deposit-address').innerText;
+    navigator.clipboard.writeText(addr).then(() => showToast('✅ Đã sao chép địa chỉ!', 'success'));
+}
+
+function fakeDeposit() {
+    const amount = parseFloat(document.getElementById('deposit-amount').value) || 100;
+    const coinType = document.getElementById('deposit-coin').value;
+    if (coinType === 'USDT') {
+        portfolio.usdt += amount;
+    } else {
+        const coin = COINS.find(c => c.symbol === coinType);
+        portfolio.holdings[coin.id] = (portfolio.holdings[coin.id] || 0) + amount;
+    }
+    saveData();
+    renderPortfolio();
+    updateHeaderBalance();
+    showToast(`✅ Nạp thành công +${amount} ${coinType}`, 'success');
+    navigateTo('wallet');
+}
+
+function fakeWithdraw() {
+    const amount = parseFloat(document.getElementById('withdraw-amount').value) || 0;
+    const coinType = document.getElementById('withdraw-coin').value;
+    const address = document.getElementById('withdraw-address').value.trim();
+    if (!address) return showToast('Vui lòng nhập địa chỉ ví nhận!', 'error');
+
+    let fee = coinType === 'BTC' ? 0.0005 : coinType === 'ETH' ? 0.005 : (coinType === 'USDT' ? 1 : 0.01);
+
+    if (coinType === 'USDT') {
+        if (portfolio.usdt < amount + fee) return showToast('Không đủ USDT!', 'error');
+        portfolio.usdt -= amount + fee;
+    } else {
+        const coin = COINS.find(c => c.symbol === coinType);
+        if ((portfolio.holdings[coin.id] || 0) < amount) return showToast('Không đủ coin!', 'error');
+        portfolio.holdings[coin.id] -= amount;
+    }
+
+    saveData();
+    renderPortfolio();
+    updateHeaderBalance();
+    showToast(`✅ Rút thành công -${amount} ${coinType}`, 'success');
+    navigateTo('wallet');
+}
+        
+    </script>
+</body>
+</html>

@@ -7,8 +7,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-     <title>Tarot motkiki</title>
-     <link rel="icon" type="image/x-icon" href="https://img.freepik.com/vector-cao-cap/logo-chu-vtlogo-toi-gianlogo-chuc-logo-don-chu_1146561-306.jpg?semt=ais_hybrid&w=740&q=80">
+    <title>Tarot motkiki</title>
+    <link rel="icon" type="image/x-icon" href="https://img.freepik.com/vector-cao-cap/logo-chu-vtlogo-toi-gianlogo-chuc-logo-don-chu_1146561-306.jpg?semt=ais_hybrid&w=740&q=80">
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
     :root {
@@ -136,7 +136,7 @@
     .owned-badge-card .button-row {
         margin-top: auto;
     }
-        .coin-name { color: #ffffff !important; font-weight: 600; }
+    .coin-name { color: #ffffff !important; font-weight: 600; }
     .coin-icon { filter: drop-shadow(0 0 8px currentColor); }
     select { color: #ffffff !important; }
     option { color: #ffffff !important; background: #1a1a2e; }
@@ -169,12 +169,12 @@
                 <div onclick="showFavorites()" class="relative cursor-pointer p-3 hover:bg-white/10 rounded-3xl">
                     <i class="fas fa-heart text-xl text-pink-400"></i>
                 </div>
-          
+         
                 <div onclick="navigateTo('wallet')" class="flex items-center gap-2 bg-white/5 hover:bg-white/10 px-5 py-2 rounded-3xl cursor-pointer neon-glow">
                     <i class="fas fa-coins text-[#00ff9d]"></i>
                     <span id="header-usdt" class="font-mono font-semibold text-lg">50.00 USDT</span>
                 </div>
-               
+              
                 <div id="user-profile" class="flex items-center gap-3 bg-white/5 hover:bg-white/10 px-4 py-2 rounded-3xl cursor-pointer"></div>
             </div>
         </div>
@@ -186,9 +186,9 @@
     <div class="max-w-7xl mx-auto px-6 py-8">
         <!-- DASHBOARD -->
         <div id="page-dashboard" class="page">
-      
+     
             <p class="text-white/60 mb-8">Thị trường đang tăng nóng • Tổng giá trị ví: <span id="total-portfolio-value" class="font-mono font-semibold text-[#00ff9d]"></span></p>
-      
+     
             <!-- Biểu đồ tổng quan -->
             <div class="mb-10">
                 <div class="flex justify-between items-end mb-6">
@@ -237,7 +237,7 @@
                         <i class="fas fa-search absolute left-5 top-1/2 -translate-y-1/2 text-white/40"></i>
                     </div>
                 </div>
-          
+         
                 <div class="flex items-center gap-4 text-sm">
                     <div class="flex items-center glass px-4 py-2 rounded-3xl">
                         <span class="text-[#00ff9d] mr-2">●</span>
@@ -278,7 +278,7 @@
                             <div id="trade-price-big" class="ml-6 text-4xl font-mono font-semibold"></div>
                             <div id="trade-change-big" class="text-xl font-medium"></div>
                         </div>
-                  
+                 
                         <div class="flex gap-2">
                             <button onclick="setChartPeriod(1)" class="period-btn px-5 py-2 text-xs rounded-3xl border border-white/20 hover:border-[#00ff9d]" data-period="1">1H</button>
                             <button onclick="setChartPeriod(24)" class="period-btn px-5 py-2 text-xs rounded-3xl border border-white/20 hover:border-[#00ff9d] active" data-period="24">24H</button>
@@ -286,11 +286,11 @@
                             <button onclick="setChartPeriod(720)" class="period-btn px-5 py-2 text-xs rounded-3xl border border-white/20 hover:border-[#00ff9d]" data-period="720">30D</button>
                         </div>
                     </div>
-              
+             
                     <div class="glass rounded-3xl p-4">
                         <canvas id="price-chart" class="w-full h-96"></canvas>
                     </div>
-              
+             
                     <div class="mt-8 grid grid-cols-2 gap-6">
                         <div>
                             <h4 class="text-emerald-400 mb-3 text-sm font-medium flex items-center"><i class="fas fa-arrow-up mr-2"></i> Mua (Bids)</h4>
@@ -302,13 +302,13 @@
                         </div>
                     </div>
                 </div>
-          
+         
                 <div class="w-96 glass rounded-3xl p-6 flex flex-col">
                     <div class="flex mb-6 border-b border-white/10 pb-4">
                         <button onclick="setTradeTab(0)" id="buy-tab" class="flex-1 py-3 text-center font-semibold bg-emerald-500/20 text-emerald-400 rounded-l-3xl">MUA</button>
                         <button onclick="setTradeTab(1)" id="sell-tab" class="flex-1 py-3 text-center font-semibold bg-red-500/20 text-red-400 rounded-r-3xl">BÁN</button>
                     </div>
-              
+             
                     <div class="space-y-6 flex-1">
                         <div>
                             <label class="text-xs text-white/60">Số lượng</label>
@@ -317,12 +317,12 @@
                                 <div id="trade-coin-unit" class="bg-white/10 border border-l-0 border-white/20 rounded-r-3xl px-6 flex items-center font-medium"></div>
                             </div>
                         </div>
-                  
+                 
                         <div class="flex justify-between text-sm">
                             <span class="text-white/60">Giá hiện tại</span>
                             <span id="trade-current-price" class="font-mono"></span>
                         </div>
-                  
+                 
                         <div class="flex justify-between text-sm">
                             <span class="text-white/60">Tổng giá trị</span>
                             <span id="trade-total-value" class="font-mono font-semibold text-lg"></span>
@@ -334,7 +334,7 @@
                             </div>
                             <span id="ai-prediction" class="font-mono font-bold text-emerald-400">+2.8%</span>
                         </div>
-                  
+                 
                         <div onclick="executeTrade()" class="mt-auto cursor-pointer bg-gradient-to-r from-[#00ff9d] to-[#00b86e] text-black font-bold text-xl py-6 rounded-3xl text-center hover:scale-105 active:scale-95 neon-glow">
                             <span id="trade-action-text">MUA NGAY</span>
                         </div>
@@ -359,20 +359,21 @@
                 </div>
             </div>
         </div>
-        <!-- MINING PAGE -->
+        <!-- MINING PAGE - ĐÃ NÂNG CẤP -->
         <div id="page-mining" class="page hidden">
             <div class="flex justify-between items-end mb-8">
                 <div>
-                    <h2 class="text-4xl font-bold mb-2 tracking-tighter">Cloud Mining </h2>
-                    <p class="text-white/60">Chọn rig • Tăng hashrate </p>
+                    <h2 class="text-4xl font-bold mb-2 tracking-tighter">Cloud Mining <span class="text-[#00ff9d] text-2xl">v2.1</span></h2>
+                    <p class="text-white/60">Nâng cấp rig bằng USDT (coin giá cao đào ít hơn, coin giá nhỏ đào nhiều hơn)</p>
                 </div>
                 <div class="text-right">
-                    <div class="text-sm text-white/60">Tổng đã đào hôm nay</div>
-                    <div id="total-mined-today" class="font-mono text-3xl font-bold text-[#00ff9d]">0.00000</div>
+                    <p class="text-white/60">Nâng cấp rig bằng USDT </p>
+                    <div id="total-mined-today" class="font-mono text-3xl font-bold text-[#00ff9d]">0.00 USDT</div>
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="mining-grid"></div>
-            <!-- Mining Control Panel -->
+            
+            <!-- Mining Control Panel - ĐÃ NÂNG CẤP -->
             <div class="mt-12 glass rounded-3xl p-8">
                 <div class="flex items-center justify-between mb-8">
                     <h3 class="text-2xl font-semibold flex items-center gap-3">
@@ -427,13 +428,26 @@
                         </div>
                     </div>
                 </div>
+
                 <!-- Power Level Selector -->
                 <div class="mt-10">
                     <div class="text-white/60 text-sm mb-4">Chọn mức công suất</div>
                     <div class="flex gap-3" id="power-levels">
-                        <!-- JS sẽ render -->
+                        <!-- JS render -->
                     </div>
                 </div>
+
+                <!-- NÂNG CẤP RIG MỚI (USDT) -->
+                <div class="mt-10">
+                    <div class="text-white/60 text-sm mb-4 flex items-center justify-between">
+                        <span class="flex items-center gap-2">
+                            <i class="fas fa-wrench"></i>
+                            NÂNG CẤP RIG (dùng USDT)
+                        </span>
+                    </div>
+                    <div id="mining-upgrades-panel" class="grid grid-cols-1 sm:grid-cols-3 gap-4"></div>
+                </div>
+
                 <div onclick="toggleMining()" id="mining-button"
                      class="mt-10 cursor-pointer bg-gradient-to-r from-[#00ff9d] to-[#00b86e] text-black font-bold text-2xl py-7 rounded-3xl text-center hover:scale-105 active:scale-95 neon-glow flex items-center justify-center gap-3">
                     <i class="fas fa-play"></i>
@@ -458,12 +472,11 @@
                 <tbody id="history-body" class="font-mono text-sm divide-y divide-white/10"></tbody>
             </table>
         </div>
-        <!-- DEPOSIT / WITHDRAW - ĐÃ NÂNG CẤP -->
-               <!-- DEPOSIT / WITHDRAW - ĐÃ CẢI THIỆN -->
+        <!-- DEPOSIT / WITHDRAW -->
         <div id="page-deposit" class="page hidden">
             <h2 class="text-3xl font-bold mb-8">Nạp &amp; Rút tiền</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                
+               
                 <!-- NẠP TIỀN -->
                 <div class="glass rounded-3xl p-8">
                     <h3 class="text-2xl mb-6 flex items-center"><i class="fas fa-arrow-down-to-line mr-3 text-emerald-400"></i> NẠP TIỀN</h3>
@@ -488,7 +501,7 @@
                         <button onclick="fakeDeposit()" class="w-full py-6 text-xl font-bold bg-gradient-to-r from-emerald-400 to-teal-400 text-black rounded-3xl hover:scale-105">XÁC NHẬN NẠP NGAY</button>
                     </div>
                 </div>
-          
+         
                 <!-- RÚT TIỀN -->
                 <div class="glass rounded-3xl p-8">
                     <h3 class="text-2xl mb-6 flex items-center"><i class="fas fa-arrow-up-from-line mr-3 text-red-400"></i> RÚT TIỀN</h3>
@@ -524,7 +537,7 @@
                 <div>
                     <h2 class="text-4xl font-bold tracking-[-1px] flex items-center gap-3">
                         <i class="fas fa-store text-[#00ff9d]"></i>
-                        CỬA HÀNG DANH HIỆU 
+                        CỬA HÀNG DANH HIỆU
                     </h2>
                     <p class="text-white/60 text-lg">Mua ngay danh hiệu độc quyền </p>
                 </div>
@@ -550,21 +563,69 @@
     <div id="toast" onclick="this.classList.add('hidden')" class="hidden fixed bottom-6 right-6 bg-black border border-[#00ff9d] text-[#00ff9d] px-8 py-4 rounded-3xl shadow-2xl flex items-center gap-3 z-[9999]">
         <span id="toast-text"></span>
     </div>
+
     <script>
         const COINS = [
-            { id: 'bitcoin', symbol: 'BTC', name: 'Bitcoin', icon: '₿', color: '#f59e0b' },
-            { id: 'ethereum', symbol: 'ETH', name: 'Ethereum', icon: '⟠', color: '#3b82f6' },
-            { id: 'dogecoin', symbol: 'DOGE', name: 'Dogecoin', icon: '🐶', color: '#facc15' },
-            { id: 'solana', symbol: 'SOL', name: 'Solana', icon: '◎', color: '#a855f7' },
-            { id: 'cardano', symbol: 'ADA', name: 'Cardano', icon: '🔷', color: '#10b981' },
-            { id: 'binancecoin', symbol: 'BNB', name: 'BNB', icon: '🟡', color: '#f59e0b' }
+            { id: 'bitcoin', symbol: 'BTC', name: 'Bitcoin', icon: '₿', color: '#f59e0b', miningFactor: 0.0000045 },
+            { id: 'ethereum', symbol: 'ETH', name: 'Ethereum', icon: '⟠', color: '#3b82f6', miningFactor: 0.000085 },
+            { id: 'dogecoin', symbol: 'DOGE', name: 'Dogecoin', icon: '🐶', color: '#facc15', miningFactor: 0.028 },
+            { id: 'solana', symbol: 'SOL', name: 'Solana', icon: '◎', color: '#a855f7', miningFactor: 0.00165 },
+            { id: 'cardano', symbol: 'ADA', name: 'Cardano', icon: '🔷', color: '#10b981', miningFactor: 0.0095 },
+            { id: 'binancecoin', symbol: 'BNB', name: 'BNB', icon: '🟡', color: '#f59e0b', miningFactor: 0.00062 }
+        ];
+
+        // === NÂNG CẤP MỚI: HỆ THỐNG NÂNG CẤP RIG ===
+               // === NÂNG CẤP MỚI: MAX 5 LEVEL + GIÁ ĐẮT HƠN ===
+        const MINING_UPGRADES = [
+            {
+                id: 'cooling',
+                name: 'Tản Nhiệt Siêu Xịn',
+                icon: '❄️',
+                maxLevel: 5,
+                costs: [65, 145, 320, 680, 1350],
+                effects: [
+                    { tempReduce: 8, hashMult: 1.04, desc: '−8°C, +4% hashrate' },
+                    { tempReduce: 15, hashMult: 1.09, desc: '−15°C, +9% hashrate' },
+                    { tempReduce: 24, hashMult: 1.16, desc: '−24°C, +16% hashrate' },
+                    { tempReduce: 35, hashMult: 1.25, desc: '−35°C, +25% hashrate' },
+                    { tempReduce: 48, hashMult: 1.38, desc: '−48°C, +38% hashrate (MAX)' }
+                ]
+            },
+            {
+                id: 'fan',
+                name: 'Quạt Tốc Độ Max',
+                icon: '🌪️',
+                maxLevel: 5,
+                costs: [55, 130, 280, 590, 1180],
+                effects: [
+                    { fanBoost: 15, tempExtra: 5, desc: '+15% quạt, −5°C thêm' },
+                    { fanBoost: 28, tempExtra: 9, desc: '+28% quạt, −9°C thêm' },
+                    { fanBoost: 42, tempExtra: 14, desc: '+42% quạt, −14°C thêm' },
+                    { fanBoost: 58, tempExtra: 20, desc: '+58% quạt, −20°C thêm' },
+                    { fanBoost: 80, tempExtra: 28, desc: '+80% quạt, −28°C thêm (MAX)' }
+                ]
+            },
+            {
+                id: 'overclock',
+                name: 'Overclock Chip',
+                icon: '⚡',
+                maxLevel: 5,
+                costs: [80, 195, 420, 890, 1750],
+                effects: [
+                    { hashMult: 1.12, effDrop: -3, desc: '+12% hashrate' },
+                    { hashMult: 1.22, effDrop: -6, desc: '+22% hashrate' },
+                    { hashMult: 1.35, effDrop: -10, desc: '+35% hashrate' },
+                    { hashMult: 1.48, effDrop: -14, desc: '+48% hashrate' },
+                    { hashMult: 1.65, effDrop: -22, desc: '+65% hashrate (MAX - rủi ro cao)' }
+                ]
+            }
         ];
         let favorites = [];
         let pricesData = {};
         let previousPrices = {};
         let portfolio = {
-            usdt: 50,                    // ← ĐÃ NÂNG CẤP: Ban đầu chỉ có 50 USDT
-            holdings: {}                 // ← Không còn coin mặc định, người chơi phải nạp + trade
+            usdt: 50,
+            holdings: {}
         };
         let transactionHistory = [];
         let currentTradeCoin = null;
@@ -578,7 +639,21 @@
         let userBadges = [];
         let activeBadge = null;
 
-        // ======================== DANH HIỆU SHOP ========================
+        // Biến mới cho mining v2.0
+        let currentMiningCoin = null;
+        let miningInterval = null;
+        let isMining = false;
+        let totalMinedUSDTToday = 0;
+        let currentPowerLevel = 1;
+        let upgradeLevels = { cooling: 0, fan: 0, overclock: 0 };
+        const powerLevels = [
+            { name: "Low", hashrate: 45, power: 120, efficiency: 88 },
+            { name: "Medium", hashrate: 98, power: 245, efficiency: 92 },
+            { name: "High", hashrate: 168, power: 380, efficiency: 89 },
+            { name: "Overclock", hashrate: 215, power: 520, efficiency: 76 }
+        ];
+
+        // ======================== SHOP ========================
         const SHOP_ITEMS = [
             { id: 'diamond', name: 'Diamond HODLer', desc: 'Danh hiệu cho holder kiên định, giữ coin qua mọi bear market', price: 299, icon: '💎', color: '#00ff9d' },
             { id: 'moon', name: 'Moon Master', desc: 'Siêu anh hùng khi coin pump 100x - Moon ngay hôm nay!', price: 149, icon: '🌕', color: '#eab308' },
@@ -648,12 +723,7 @@
 
         function loadData() {
             const saved = localStorage.getItem('cryptox_portfolio');
-            if (saved) {
-                portfolio = JSON.parse(saved);
-            } else {
-                // Nếu chưa có dữ liệu → khởi tạo ban đầu chỉ 50 USDT
-                portfolio = { usdt: 50, holdings: {} };
-            }
+            if (saved) portfolio = JSON.parse(saved);
             const hist = localStorage.getItem('cryptox_history');
             if (hist) transactionHistory = JSON.parse(hist);
             const badges = localStorage.getItem('cryptox_badges');
@@ -661,6 +731,14 @@
             const fav = localStorage.getItem('cryptox_favorites');
             if (fav) favorites = JSON.parse(fav);
             else favorites = ['bitcoin', 'ethereum', 'solana'];
+
+            // Load mining upgrades
+            const upg = localStorage.getItem('cryptox_mining_upgrades');
+            if (upg) upgradeLevels = JSON.parse(upg);
+            else upgradeLevels = { cooling: 0, fan: 0, overclock: 0 };
+
+            const mined = localStorage.getItem('cryptox_mined_usdt_today');
+            totalMinedUSDTToday = mined ? parseFloat(mined) : 0;
         }
 
         function saveData() {
@@ -668,8 +746,100 @@
             localStorage.setItem('cryptox_history', JSON.stringify(transactionHistory));
             localStorage.setItem('cryptox_badges', JSON.stringify(userBadges));
             localStorage.setItem('cryptox_favorites', JSON.stringify(favorites));
+            localStorage.setItem('cryptox_mining_upgrades', JSON.stringify(upgradeLevels));
+            localStorage.setItem('cryptox_mined_usdt_today', totalMinedUSDTToday.toString());
             localStorage.setItem('cryptox_active_badge', JSON.stringify(activeBadge || null));
         }
+
+        // ======================== CALCULATE MINING STATS (với nâng cấp) ========================
+        function calculateMiningStats() {
+            const level = powerLevels[currentPowerLevel];
+            let hashrate = level.hashrate;
+            let temp = 38 + currentPowerLevel * 8;
+            let fan = 55 + currentPowerLevel * 15;
+            let efficiency = level.efficiency;
+
+            // Áp dụng nâng cấp
+            const coolingLvl = upgradeLevels.cooling || 0;
+            if (coolingLvl > 0) {
+                const eff = MINING_UPGRADES[0].effects[coolingLvl - 1];
+                temp -= eff.tempReduce;
+                hashrate *= eff.hashMult;
+            }
+
+            const fanLvl = upgradeLevels.fan || 0;
+            if (fanLvl > 0) {
+                const eff = MINING_UPGRADES[1].effects[fanLvl - 1];
+                fan = Math.min(99, fan + eff.fanBoost);
+                temp -= eff.tempExtra;
+            }
+
+            const ocLvl = upgradeLevels.overclock || 0;
+            if (ocLvl > 0) {
+                const eff = MINING_UPGRADES[2].effects[ocLvl - 1];
+                hashrate *= eff.hashMult;
+                efficiency = Math.max(60, efficiency + eff.effDrop);
+            }
+
+            temp = Math.max(24, temp);
+            hashrate = Math.round(hashrate * 10) / 10;
+
+            return { hashrate, temp: Math.round(temp), fan: Math.round(fan), efficiency: efficiency.toFixed(1) };
+        }
+
+        // ======================== RENDER UPGRADES PANEL ========================
+             function renderMiningUpgrades() {
+            const container = document.getElementById('mining-upgrades-panel');
+            let html = '';
+            MINING_UPGRADES.forEach(upgrade => {
+                const lvl = upgradeLevels[upgrade.id] || 0;
+                const nextLvl = lvl + 1;
+                const canUpgrade = nextLvl <= upgrade.maxLevel;
+                const nextCost = canUpgrade ? upgrade.costs[lvl] : 0;
+                const currentEffect = lvl > 0 ? upgrade.effects[lvl - 1].desc : 'Chưa nâng cấp';
+
+                html += `
+                <div class="glass rounded-3xl p-5 flex flex-col">
+                    <div class="flex gap-3 items-center">
+                        <div class="text-4xl">${upgrade.icon}</div>
+                        <div class="flex-1">
+                            <div class="font-bold">${upgrade.name}</div>
+                            <div class="text-xs text-white/60">Lv ${lvl}/${upgrade.maxLevel}</div>
+                            <div class="text-emerald-400 text-xs mt-1">${currentEffect}</div>
+                        </div>
+                    </div>
+                    ${canUpgrade 
+                        ? `<button onclick="buyMiningUpgrade('${upgrade.id}');event.stopImmediatePropagation()" class="mt-4 w-full py-3 text-sm font-bold bg-gradient-to-r from-[#00ff9d]/10 to-transparent border border-[#00ff9d] hover:bg-[#00ff9d] hover:text-black rounded-2xl flex items-center justify-center gap-2">
+                            <span>Nâng cấp Lv${nextLvl}</span>
+                            <span class="font-mono">${nextCost} USDT</span>
+                           </button>`
+                        : `<div class="mt-4 py-3 text-center text-emerald-400 text-sm font-bold border border-emerald-400/30 rounded-2xl">ĐÃ MAX LV5</div>`}
+                </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function buyMiningUpgrade(upgradeId) {
+            const upgrade = MINING_UPGRADES.find(u => u.id === upgradeId);
+            if (!upgrade) return;
+            const currentLvl = upgradeLevels[upgradeId] || 0;
+            const nextLvl = currentLvl + 1;
+            if (nextLvl > upgrade.maxLevel) return;
+            const cost = upgrade.costs[currentLvl];
+            if (portfolio.usdt < cost) {
+                showToast('Không đủ USDT để nâng cấp!', 'error');
+                return;
+            }
+            portfolio.usdt -= cost;
+            upgradeLevels[upgradeId] = nextLvl;
+            saveData();
+            updateHeaderBalance();
+            renderMiningUpgrades();
+            if (isMining && currentMiningCoin) updateMiningUI();
+            showToast(`✅ Nâng cấp ${upgrade.name} lên Lv${nextLvl} thành công!`, 'success');
+        }
+
+        
 
         async function fetchAllPrices() {
             const oldPrices = {...pricesData};
@@ -701,7 +871,7 @@
                     }
                 });
             }
-      
+     
             COINS.forEach(coin => {
                 if (pricesData[coin.id]) previousPrices[coin.id] = pricesData[coin.id].price;
             });
@@ -933,7 +1103,7 @@
             const price = pricesData[currentTradeCoin.id].price;
             const fee = amount * price * 0.001;
             const totalValue = amount * price;
-      
+     
             if (currentTradeTab === 0) {
                 if (portfolio.usdt < totalValue + fee) return showToast('Không đủ USDT!', 'error');
                 portfolio.usdt -= totalValue + fee;
@@ -943,7 +1113,7 @@
                 portfolio.usdt += totalValue - fee;
                 portfolio.holdings[currentTradeCoin.id] -= amount;
             }
-      
+     
             transactionHistory.unshift({
                 time: new Date().toLocaleString('vi-VN'),
                 type: currentTradeTab === 0 ? 'MUA' : 'BÁN',
@@ -952,7 +1122,7 @@
                 price: price,
                 total: totalValue
             });
-      
+     
             saveData();
             renderPortfolio();
             updateHeaderBalance();
@@ -967,7 +1137,7 @@
                 <div id="portfolio-total-value-big" class="text-5xl font-mono font-bold mt-auto">${calculateTotalValue().toLocaleString('en-US')}</div>
                 <div class="text-white/60">USDT</div>
             </div>`;
-      
+     
             COINS.forEach(coin => {
                 const amount = portfolio.holdings[coin.id] || 0;
                 const price = pricesData[coin.id] ? pricesData[coin.id].price : 0;
@@ -980,7 +1150,7 @@
                 }
             });
             container.innerHTML = html;
-      
+     
             const walletContainer = document.getElementById('wallet-holdings');
             let whtml = '';
             COINS.forEach(coin => {
@@ -995,7 +1165,7 @@
                 }
             });
             walletContainer.innerHTML = whtml || `<p class="text-white/40 text-center py-12">Chưa có coin nào.<br>Bắt đầu nạp tiền và trade nhé!</p>`;
-      
+     
             document.getElementById('wallet-usdt').innerText = portfolio.usdt.toLocaleString('en-US');
             document.getElementById('total-portfolio-value').innerHTML = `<span class="font-mono">${calculateTotalValue().toLocaleString('en-US')} USDT</span>`;
         }
@@ -1126,20 +1296,13 @@
                 <p class="text-sm text-white/50">${coin.symbol}</p>
                 <div class="mt-8 pt-6 border-t border-white/10">
                     <div class="text-xs text-white/60">Ước tính thưởng</div>
-                    <div class="font-mono text-xl text-emerald-400">~0.0024 ${coin.symbol}/giờ</div>
+                    <div class="font-mono text-xl text-emerald-400">${coin.symbol}</div>
                 </div>
             </div>`).join('');
-        }
 
-        function selectMiningCoin(coinId) {
-            const coin = COINS.find(c => c.id === coinId);
-            if (!coin) return;
-            currentMiningCoin = coin;
-            document.getElementById('current-coin-mining').innerHTML = `<span style="color:${coin.color}" class="text-2xl">${coin.icon}</span> ${coin.name}`;
-            currentPowerLevel = 1;
             renderPowerLevels();
-            if (isMining) stopMining();
-            showToast(`Đã chọn đào ${coin.symbol}`, 'success');
+            renderMiningUpgrades();
+            document.getElementById('total-mined-today').innerHTML = totalMinedUSDTToday.toFixed(2) + ' <span class="text-sm">USDT</span>';
         }
 
         function renderPowerLevels() {
@@ -1158,23 +1321,44 @@
             if (isMining && currentMiningCoin) updateMiningUI();
         }
 
+        function selectMiningCoin(coinId) {
+            const coin = COINS.find(c => c.id === coinId);
+            if (!coin) return;
+            currentMiningCoin = coin;
+            document.getElementById('current-coin-mining').innerHTML = `<span style="color:${coin.color}" class="text-2xl">${coin.icon}</span> ${coin.name}`;
+            if (isMining) stopMining();
+            showToast(`Đã chọn đào ${coin.symbol} • Phần thưởng coin được điều chỉnh theo giá`, 'success');
+        }
+
         function updateMiningUI() {
             if (!currentMiningCoin) return;
+            const stats = calculateMiningStats();
+            const p = pricesData[currentMiningCoin.id];
+            const coinPrice = p ? p.price : 1;
+
+            // Hashrate
+            document.getElementById('current-hashrate').textContent = stats.hashrate.toFixed(1);
+            document.getElementById('hashrate-bar').style.width = Math.min(100, (stats.hashrate / 280) * 100) + '%';
+
+            // Temp & Fan
+            document.getElementById('temperature').textContent = stats.temp + '°C';
+            document.getElementById('fan-speed').textContent = stats.fan + '%';
+
+            // Power & Efficiency
             const level = powerLevels[currentPowerLevel];
-            const hashrate = level.hashrate + Math.random() * 8;
-            document.getElementById('current-hashrate').textContent = hashrate.toFixed(1);
-            document.getElementById('hashrate-bar').style.width = Math.min(100, (hashrate / 250) * 100) + '%';
             document.getElementById('power-usage').textContent = level.power + ' W';
-            document.getElementById('efficiency').textContent = level.efficiency + '%';
-            document.getElementById('temperature').textContent = (38 + currentPowerLevel * 8) + '°C';
-            document.getElementById('fan-speed').textContent = (55 + currentPowerLevel * 15) + '%';
-            const profit = (level.hashrate * 0.008).toFixed(2);
-            document.getElementById('profit-per-hour').textContent = `+${profit} USDT`;
+            document.getElementById('efficiency').textContent = stats.efficiency + '%';
+
+            // Profit / giờ (USDT) - không phụ thuộc coin
+            const usdtPerMH = 0.0085 * (parseFloat(stats.efficiency) / 92);
+            const profitHour = (stats.hashrate * usdtPerMH).toFixed(2);
+            document.getElementById('profit-per-hour').innerHTML = `+${profitHour} <span class="text-xs">USDT</span>`;
         }
 
         function toggleMining() {
             if (!currentMiningCoin) return showToast('Vui lòng chọn coin để đào!', 'error');
-            if (isMining) stopMining(); else startMining();
+            if (isMining) stopMining(); 
+            else startMining();
         }
 
         function startMining() {
@@ -1182,13 +1366,26 @@
             document.getElementById('mining-button').classList.add('!bg-orange-500', '!from-orange-500', '!to-red-500');
             document.getElementById('mining-button-text').innerHTML = `<i class="fas fa-pause"></i> DỪNG ĐÀO`;
             updateMiningUI();
+
             miningInterval = setInterval(() => {
-                if (!currentMiningCoin) return;
-                const level = powerLevels[currentPowerLevel];
-                const reward = (level.hashrate / 10000) * (0.8 + Math.random() * 0.6);
+                if (!currentMiningCoin || !isMining) return;
+                const stats = calculateMiningStats();
+                const coinPrice = pricesData[currentMiningCoin.id].price || 1;
+                const usdtPerMHHour = 0.0085 * (parseFloat(stats.efficiency) / 92);
+
+                // Tính reward coin (cao giá = đào ít coin, rẻ giá = đào nhiều coin)
+                const coinRewardPerHour = (stats.hashrate * usdtPerMHHour) / coinPrice;
+                const intervalFraction = 2800 / 3600000; // 2.8 giây
+                let reward = coinRewardPerHour * intervalFraction * (0.85 + Math.random() * 0.65);
+
                 portfolio.holdings[currentMiningCoin.id] = (portfolio.holdings[currentMiningCoin.id] || 0) + reward;
-                totalMinedToday += reward;
-                document.getElementById('total-mined-today').textContent = totalMinedToday.toFixed(5);
+
+                // Cộng vào tổng USDT đào được hôm nay
+                const usdtThis = reward * coinPrice;
+                totalMinedUSDTToday += usdtThis;
+
+                document.getElementById('total-mined-today').innerHTML = totalMinedUSDTToday.toFixed(2) + ' <span class="text-sm">USDT</span>';
+
                 renderPortfolio();
                 saveData();
                 updateMiningUI();
@@ -1218,95 +1415,122 @@
 
         function fakeDeposit() {
             const amount = parseFloat(document.getElementById('deposit-amount').value) || 100;
-            const coin = document.getElementById('deposit-coin').value;
-            let fee = 0;
-            if (coin === 'BTC') fee = 0.0005;
-            else if (coin === 'ETH') fee = 0.005;
-            if (coin === 'USDT') {
+            const coinType = document.getElementById('deposit-coin').value;
+            if (coinType === 'USDT') {
                 portfolio.usdt += amount;
             } else {
-                const coinId = coin.toLowerCase() === 'btc' ? 'bitcoin' : coin.toLowerCase() === 'eth' ? 'ethereum' : 'dogecoin';
-                portfolio.holdings[coinId] = (portfolio.holdings[coinId] || 0) + amount * 0.001;
+                const coin = COINS.find(c => c.symbol === coinType);
+                portfolio.holdings[coin.id] = (portfolio.holdings[coin.id] || 0) + amount;
             }
             saveData();
             renderPortfolio();
             updateHeaderBalance();
-            showToast(`✅ Nạp thành công +${amount} ${coin} (phí ${fee})`, 'success');
+            showToast(`✅ Nạp thành công +${amount} ${coinType}`, 'success');
+            navigateTo('wallet');
         }
 
         function fakeWithdraw() {
             const amount = parseFloat(document.getElementById('withdraw-amount').value) || 0;
-            const coinSelect = document.getElementById('withdraw-coin').value;
-            let fee = 0;
-            if (coinSelect === 'BTC') fee = 0.0005;
-            else if (coinSelect === 'ETH') fee = 0.005;
-            if (coinSelect === 'USDT') {
-                if (portfolio.usdt < amount + fee) return showToast('Không đủ số dư!', 'error');
+            const coinType = document.getElementById('withdraw-coin').value;
+            const address = document.getElementById('withdraw-address').value.trim();
+            if (!address) return showToast('Vui lòng nhập địa chỉ ví nhận!', 'error');
+            let fee = coinType === 'BTC' ? 0.0005 : coinType === 'ETH' ? 0.005 : (coinType === 'USDT' ? 1 : 0.01);
+            if (coinType === 'USDT') {
+                if (portfolio.usdt < amount + fee) return showToast('Không đủ USDT!', 'error');
                 portfolio.usdt -= amount + fee;
             } else {
-                const coinId = coinSelect === 'BTC' ? 'bitcoin' : coinSelect === 'ETH' ? 'ethereum' : 'dogecoin';
-                if ((portfolio.holdings[coinId] || 0) < amount) return showToast('Không đủ coin!', 'error');
-                portfolio.holdings[coinId] -= amount;
+                const coin = COINS.find(c => c.symbol === coinType);
+                if ((portfolio.holdings[coin.id] || 0) < amount) return showToast('Không đủ coin!', 'error');
+                portfolio.holdings[coin.id] -= amount;
             }
             saveData();
             renderPortfolio();
             updateHeaderBalance();
-            showToast(`✅ Rút thành công -${amount} ${coinSelect} (phí ${fee})`, 'success');
+            showToast(`✅ Rút thành công -${amount} ${coinType}`, 'success');
+            navigateTo('wallet');
         }
 
-        function updateWithdrawFee() {
+        function updateDepositUI() {
+            const coinType = document.getElementById('deposit-coin').value;
+            const addressBox = document.getElementById('deposit-address-box');
+            if (coinType === 'USDT') {
+                addressBox.classList.add('hidden');
+                document.getElementById('deposit-fee-display').innerHTML = `0 USDT <span class="text-emerald-400 text-xs">(Miễn phí)</span>`;
+            } else {
+                addressBox.classList.remove('hidden');
+                const feeText = coinType === 'BTC' ? '0.0005 BTC' : coinType === 'ETH' ? '0.005 ETH' : '0.01 ' + coinType;
+                document.getElementById('deposit-fee-display').innerHTML = feeText;
+            }
+        }
+
+        function updateWithdrawUI() {
+            const coinType = document.getElementById('withdraw-coin').value;
             const amount = parseFloat(document.getElementById('withdraw-amount').value) || 0;
-            const coinSelect = document.getElementById('withdraw-coin').value;
-            let fee = 0;
-            if (coinSelect === 'BTC') fee = 0.0005;
-            else if (coinSelect === 'ETH') fee = 0.005;
-            document.getElementById('withdraw-fee').innerHTML = fee + ' ' + coinSelect;
-            const after = coinSelect === 'USDT' ? portfolio.usdt - amount - fee : portfolio.usdt;
-            document.getElementById('withdraw-after').innerHTML = after.toFixed(2) + ' USDT';
+            let fee = coinType === 'BTC' ? 0.0005 : coinType === 'ETH' ? 0.005 : (coinType === 'USDT' ? 1 : 0.01);
+            document.getElementById('withdraw-fee-display').innerHTML = fee + ' ' + coinType;
+            let after = portfolio.usdt;
+            if (coinType !== 'USDT') {
+                const coin = COINS.find(c => c.symbol === coinType);
+                const holding = portfolio.holdings[coin.id] || 0;
+                after = holding - amount;
+            } else {
+                after = portfolio.usdt - amount - fee;
+            }
+            document.getElementById('withdraw-after').innerHTML = Math.max(0, after).toFixed(2) + ' ' + (coinType === 'USDT' ? 'USDT' : coinType);
+        }
+
+        function populateDepositSelect() {
+            const select = document.getElementById('deposit-coin');
+            let html = `<option value="USDT">USDT (Tether) - Miễn phí</option>`;
+            COINS.forEach(coin => {
+                html += `<option value="${coin.symbol}">${coin.name} (${coin.symbol})</option>`;
+            });
+            select.innerHTML = html;
         }
 
         function populateWithdrawSelect() {
             const select = document.getElementById('withdraw-coin');
-            select.innerHTML = `
-                <option value="USDT">USDT - ${portfolio.usdt.toLocaleString('en-US')}</option>
-                <option value="BTC">BTC - ${(portfolio.holdings.bitcoin || 0).toFixed(4)}</option>
-                <option value="ETH">ETH - ${(portfolio.holdings.ethereum || 0).toFixed(4)}</option>
-                <option value="DOGE">DOGE - ${(portfolio.holdings.dogecoin || 0).toFixed(2)}</option>
-            `;
-            updateWithdrawFee();
+            let html = `<option value="USDT">USDT - ${portfolio.usdt.toLocaleString('en-US')}</option>`;
+            COINS.forEach(coin => {
+                const amount = portfolio.holdings[coin.id] || 0;
+                html += `<option value="${coin.symbol}">${coin.name} (${coin.symbol}) - ${amount.toFixed(4)}</option>`;
+            });
+            select.innerHTML = html;
+        }
+
+        function copyDepositAddress() {
+            const addr = document.getElementById('deposit-address').innerText;
+            navigator.clipboard.writeText(addr).then(() => showToast('✅ Đã sao chép địa chỉ!', 'success'));
         }
 
         function navigateTo(page) {
-    document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
-    const target = document.getElementById('page-' + page);
-    if (target) target.classList.remove('hidden');
+            document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+            const target = document.getElementById('page-' + page);
+            if (target) target.classList.remove('hidden');
+            document.querySelectorAll('nav a').forEach(a => a.classList.remove('nav-active'));
+            const navEl = document.getElementById('nav-' + page);
+            if (navEl) navEl.classList.add('nav-active');
 
-    document.querySelectorAll('nav a').forEach(a => a.classList.remove('nav-active'));
-    const navEl = document.getElementById('nav-' + page);
-    if (navEl) navEl.classList.add('nav-active');
-
-    if (page === 'market') fetchAllPrices();
-    if (page === 'wallet') renderPortfolio();
-    if (page === 'history') renderHistory();
-    if (page === 'mining') {
-        renderMiningPage();
-        renderPowerLevels();
-        document.getElementById('total-mined-today').textContent = totalMinedToday.toFixed(5);
-    }
-    if (page === 'deposit') {
-        populateDepositSelect();
-        populateWithdrawSelect();
-        updateDepositUI();
-        updateWithdrawUI();
-    }
-    if (page === 'dashboard') {
-        setTimeout(() => { if (!overviewChartInstance) loadOverviewChart(); }, 100);
-    }
-    if (page === 'shop') {
-        renderShop();
-        updateHeaderBalance();
-    }
-}
+            if (page === 'market') fetchAllPrices();
+            if (page === 'wallet') renderPortfolio();
+            if (page === 'history') renderHistory();
+            if (page === 'mining') {
+                renderMiningPage();
+            }
+            if (page === 'deposit') {
+                populateDepositSelect();
+                populateWithdrawSelect();
+                updateDepositUI();
+                updateWithdrawUI();
+            }
+            if (page === 'dashboard') {
+                setTimeout(() => { if (!overviewChartInstance) loadOverviewChart(); }, 100);
+            }
+            if (page === 'shop') {
+                renderShop();
+                updateHeaderBalance();
+            }
+        }
 
         function showToast(text, type = 'success') {
             const toast = document.getElementById('toast');
@@ -1334,18 +1558,6 @@
             });
             showToast(message, 'success');
         }
-
-        let currentMiningCoin = null;
-        let miningInterval = null;
-        let isMining = false;
-        let totalMinedToday = 0;
-        let currentPowerLevel = 2;
-        const powerLevels = [
-            { name: "Low", hashrate: 45, power: 120, efficiency: 88, color: "#22c55e" },
-            { name: "Medium", hashrate: 98, power: 245, efficiency: 92, color: "#eab308" },
-            { name: "High", hashrate: 168, power: 380, efficiency: 89, color: "#f97316" },
-            { name: "Overclock", hashrate: 215, power: 520, efficiency: 76, color: "#ef4444" }
-        ];
 
         function calculateBigChangeCount() {
             let count = 0;
@@ -1415,104 +1627,10 @@
             updateProfileDisplay();
             updateNotificationBadge();
             navigateTo('dashboard');
-            console.log('%c✅ CryptoX đã nâng cấp hoàn chỉnh: Ban đầu chỉ 50 USDT + Nạp/Rút mới!', 'color:#00ff9d; font-size:16px; font-weight:700');
+            console.log('%c✅ NiggeXT Mining v2.0 đã nâng cấp: USDT nâng cấp rig • Nhiệt độ giảm • Quạt tăng • Tốc độ đào tăng • Coin giá cao đào ít hơn!', 'color:#00ff9d; font-size:16px; font-weight:700');
         }
+
         window.onload = launchApp;
-        // ======================== HÀM NẠP / RÚT MỚI ========================
-function populateDepositSelect() {
-    const select = document.getElementById('deposit-coin');
-    let html = `<option value="USDT">USDT (Tether) - Miễn phí</option>`;
-    COINS.forEach(coin => {
-        html += `<option value="${coin.symbol}">${coin.name} (${coin.symbol})</option>`;
-    });
-    select.innerHTML = html;
-}
-
-function populateWithdrawSelect() {
-    const select = document.getElementById('withdraw-coin');
-    let html = `<option value="USDT">USDT - ${portfolio.usdt.toLocaleString('en-US')}</option>`;
-    COINS.forEach(coin => {
-        const amount = portfolio.holdings[coin.id] || 0;
-        html += `<option value="${coin.symbol}">${coin.name} (${coin.symbol}) - ${amount.toFixed(coin.decimals || 4)}</option>`;
-    });
-    select.innerHTML = html;
-}
-
-function updateDepositUI() {
-    const coinType = document.getElementById('deposit-coin').value;
-    const addressBox = document.getElementById('deposit-address-box');
-    if (coinType === 'USDT') {
-        addressBox.classList.add('hidden');
-        document.getElementById('deposit-fee-display').innerHTML = `0 USDT <span class="text-emerald-400 text-xs">(Miễn phí)</span>`;
-    } else {
-        addressBox.classList.remove('hidden');
-        const feeText = coinType === 'BTC' ? '0.0005 BTC' : coinType === 'ETH' ? '0.005 ETH' : '0.01 ' + coinType;
-        document.getElementById('deposit-fee-display').innerHTML = feeText;
-    }
-}
-
-function updateWithdrawUI() {
-    const coinType = document.getElementById('withdraw-coin').value;
-    const amount = parseFloat(document.getElementById('withdraw-amount').value) || 0;
-    let fee = coinType === 'BTC' ? 0.0005 : coinType === 'ETH' ? 0.005 : (coinType === 'USDT' ? 1 : 0.01);
-    document.getElementById('withdraw-fee-display').innerHTML = fee + ' ' + coinType;
-
-    let after = portfolio.usdt;
-    if (coinType !== 'USDT') {
-        const coin = COINS.find(c => c.symbol === coinType);
-        const holding = portfolio.holdings[coin.id] || 0;
-        after = holding - amount;
-    } else {
-        after = portfolio.usdt - amount - fee;
-    }
-    document.getElementById('withdraw-after').innerHTML = Math.max(0, after).toFixed(2) + ' ' + (coinType === 'USDT' ? 'USDT' : coinType);
-}
-
-function copyDepositAddress() {
-    const addr = document.getElementById('deposit-address').innerText;
-    navigator.clipboard.writeText(addr).then(() => showToast('✅ Đã sao chép địa chỉ!', 'success'));
-}
-
-function fakeDeposit() {
-    const amount = parseFloat(document.getElementById('deposit-amount').value) || 100;
-    const coinType = document.getElementById('deposit-coin').value;
-    if (coinType === 'USDT') {
-        portfolio.usdt += amount;
-    } else {
-        const coin = COINS.find(c => c.symbol === coinType);
-        portfolio.holdings[coin.id] = (portfolio.holdings[coin.id] || 0) + amount;
-    }
-    saveData();
-    renderPortfolio();
-    updateHeaderBalance();
-    showToast(`✅ Nạp thành công +${amount} ${coinType}`, 'success');
-    navigateTo('wallet');
-}
-
-function fakeWithdraw() {
-    const amount = parseFloat(document.getElementById('withdraw-amount').value) || 0;
-    const coinType = document.getElementById('withdraw-coin').value;
-    const address = document.getElementById('withdraw-address').value.trim();
-    if (!address) return showToast('Vui lòng nhập địa chỉ ví nhận!', 'error');
-
-    let fee = coinType === 'BTC' ? 0.0005 : coinType === 'ETH' ? 0.005 : (coinType === 'USDT' ? 1 : 0.01);
-
-    if (coinType === 'USDT') {
-        if (portfolio.usdt < amount + fee) return showToast('Không đủ USDT!', 'error');
-        portfolio.usdt -= amount + fee;
-    } else {
-        const coin = COINS.find(c => c.symbol === coinType);
-        if ((portfolio.holdings[coin.id] || 0) < amount) return showToast('Không đủ coin!', 'error');
-        portfolio.holdings[coin.id] -= amount;
-    }
-
-    saveData();
-    renderPortfolio();
-    updateHeaderBalance();
-    showToast(`✅ Rút thành công -${amount} ${coinType}`, 'success');
-    navigateTo('wallet');
-}
-        
     </script>
 </body>
 </html>
